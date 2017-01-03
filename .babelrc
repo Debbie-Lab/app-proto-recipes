@@ -1,0 +1,10 @@
+{
+    "presets": ["es2015", "stage-3"],
+    "plugins": [
+        ["module-alias", [
+            { "src": "./", "expose": "app-proto-recipes" },
+            { "src": "./test", "expose": "@test" }
+        ]]
+    ]
+}
+
