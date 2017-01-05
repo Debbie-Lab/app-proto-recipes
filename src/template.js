@@ -1,9 +1,6 @@
-// Templates
 class Templates {
-  constructor(js, css, data) {
-    this.js = js || []
-    this.css = css || []
-    this.data = data || {}
+  constructor(serveData) {
+    this.serveData = serveData
   }
 
   renderJs() {
@@ -15,6 +12,6 @@ class Templates {
   }
 
   toHtml() {
-    return '<!DOCTYPE html>'
+    return '<!DOCTYPE html><html><body>服务端渲染内容</body></html>'
   }
 }

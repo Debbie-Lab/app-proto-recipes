@@ -1,11 +1,25 @@
 'use strict';
 
-var _koa = require('koa');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = recipes;
 
-var _koa2 = _interopRequireDefault(_koa);
+var _context = require('./recipes/context');
+
+var _context2 = _interopRequireDefault(_context);
+
+var _middlewares = require('./recipes/middlewares');
+
+var _middlewares2 = _interopRequireDefault(_middlewares);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log(System);
+function recipes(app, config) {
+  app.context['$config'] = config;
 
-var app = new _koa2.default();
+  var path = config.path;
+
+  (0, _context2.default)(app, path.context);
+  (0, _middlewares2.default)(app, path.middlewares);
+}

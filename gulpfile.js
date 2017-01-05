@@ -6,10 +6,11 @@ const del = require('del')
 const globs = 'src/**/*.js'
 
 const babelrc = () => babel({
-  presets: ['ex2015', 'stage-3'],
+  presets: ['es2015', 'stage-3'],
   plugins: [
     ['module-alias', [
       { src: './src', 'expose': '@root' },
+      { src: './src/recipes', 'expose': '@recipes' },
     ]],
   ],
 })

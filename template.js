@@ -4,14 +4,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// Templates
 var Templates = function () {
-  function Templates(js, css, data) {
+  function Templates(serveData) {
     _classCallCheck(this, Templates);
 
-    this.js = js || [];
-    this.css = css || [];
-    this.data = data || {};
+    this.serveData = serveData;
   }
 
   _createClass(Templates, [{
@@ -23,7 +20,7 @@ var Templates = function () {
   }, {
     key: 'toHtml',
     value: function toHtml() {
-      return '<!DOCTYPE html>';
+      return '<!DOCTYPE html><html><body>服务端渲染内容</body></html>';
     }
   }]);
 

@@ -1,7 +1,7 @@
 import path from 'path'
 import glob from 'glob'
 
-import { dirExists } from '../utils'
+import { dirExists } from '@root/utils'
 
 const join = path.join
 
@@ -23,7 +23,7 @@ export default function contextRecipe(app, crPath) {
       const ctxObj = new Ctx()
 
       if (app.context[ctxName]) {
-        throw new Error(`Duplicate objects: ${ctxName}`)
+        throw new Error(`Duplicate objects: ${ctxName}; see file '${file}'`)
       }
 
       app.context[ctxName] = ctxObj

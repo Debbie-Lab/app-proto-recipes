@@ -1,7 +1,17 @@
-import Koa from 'koa'
+import context from '@recipes/context'
 
-console.log(System)
+import middlewares from '@recipes/middlewares'
+import render from '@recipes/render'
 
-const app = new Koa()
+
+export default function recipes(app, config) {
+  app.context['$config'] = config
+
+  const path = config.path
+
+  context(app, path.context)
+  middlewares(app, path.middlewares)
+  render(app, path.render)
+}
 
 

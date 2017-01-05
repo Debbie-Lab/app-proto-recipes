@@ -35,7 +35,7 @@ function contextRecipe(app, crPath) {
     var ctxObj = new Ctx();
 
     if (app.context[ctxName]) {
-      throw new Error('Duplicate objects: ' + ctxName);
+      throw new Error('Duplicate objects: ' + ctxName + '; see file \'' + file + '\'');
     }
 
     app.context[ctxName] = ctxObj;
