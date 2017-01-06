@@ -4,20 +4,14 @@ import recipes from 'app-proto-recipes'
 
 
 const logger = console.log
+const env = process.env.NODE_ENV || 'dev'
 
 logger(recipes)
 
-const env = process.env.NODE_ENV || 'dev'
+function main() {
+  const app = new Koa()
+  recipes(app, config)
+  app.listen(3000)
+}
 
-const app = new Koa()
-
-recipes(app, config)
-
-app.use((ctx, next) => {
-  logger(ctx.$config)
-  logger(ctx.$middlewares)
-  const http = ctx.http
-  ctx.body = 'hello world'
-})
-
-app.listen(3000)
+main()

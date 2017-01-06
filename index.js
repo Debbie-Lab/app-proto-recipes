@@ -13,6 +13,10 @@ var _middlewares = require('./recipes/middlewares');
 
 var _middlewares2 = _interopRequireDefault(_middlewares);
 
+var _render = require('./recipes/render');
+
+var _render2 = _interopRequireDefault(_render);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function recipes(app, config) {
@@ -22,4 +26,5 @@ function recipes(app, config) {
 
   (0, _context2.default)(app, path.context);
   (0, _middlewares2.default)(app, path.middlewares);
+  (0, _render2.default)(app, path.render, path.templates);
 }

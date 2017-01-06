@@ -29,11 +29,25 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var join = _path2.default.join;
 var router = (0, _koaRouter2.default)();
+var routes = [];
+
+function getTplShells(tplPath) {
+  if (!(0, _utils.dirExists)(tplPath)) {
+    throw new Error('Wrong path: ' + tplPath);
+  }
+
+  var tplShells = {};
+  (0, _glob2.default)(join('**/*.js'), { cwd: tplPath, dot: false, sync: true }).forEach(function (file) {
+    return tplShells[file.replace('.js', '')] = require(join(tplPath, file)).default;
+  });
+
+  return tplShells;
+}
 
 /**
  * @param {string} tplPath
  **/
-function routerRegister(url, method, middlewares, controller, template, tplPath) {
+function routerRegister(url, method, middlewares, controller, template) {
   var _this = this;
 
   var routerController = function () {
@@ -51,11 +65,16 @@ function routerRegister(url, method, middlewares, controller, template, tplPath)
 
               ctx.$data = Object.assign(ctx.$data || {}, serveData || {});
 
-              if (typeof template === 'undefined') {
+              if (template === null) {
                 ctx.body = ctx.$data;
               } else {
-                Template = require(tplPath + '/' + template).defalut;
-                tpl = new Template({ serveData: ctx.$data });
+                Template = ctx.$tpls[template];
+                tpl = new Template({
+                  serveData: ctx.$data,
+                  middlewares: ctx.$middlewares,
+                  routes: ctx.$routes,
+                  tpls: ctx.$tpls
+                });
 
                 ctx.body = tpl.toHtml();
               }
@@ -85,12 +104,10 @@ function routerRegister(url, method, middlewares, controller, template, tplPath)
               middlewares.forEach(function (middlewareName) {
                 if (middlewareName in ctx.$middlewares) {
                   availableMiddlewares.push(ctx.$middlewares[middlewareName]);
-                } else {
-                  availableMiddlewares.push(require(middlewareName)(_this));
                 }
               });
               _context2.next = 4;
-              return (0, _koaCompose2.default)(availableMiddlewares).call(_this.ctx, next);
+              return (0, _koaCompose2.default)(availableMiddlewares).call(_this, ctx, next);
 
             case 4:
             case 'end':
@@ -105,12 +122,19 @@ function routerRegister(url, method, middlewares, controller, template, tplPath)
     };
   }();
 
+  routes.push({ method: method.toLowerCase(), url: url });
   router[method.toLowerCase()](url, (0, _koaCompose2.default)([renderMiddlewares].concat(routerController)));
 }
 
 function initSchema(renderConfigs, defaultUrl, rrPath, tplPath) {
   if (!Array.isArray(renderConfigs)) {
-    routerRegister(defaultUrl, renderConfigs.methods || ['GET'], renderConfigs.middlewares || [], renderConfigs.controller, renderConfigs.template || 'default', tplPath);
+    (renderConfigs.urls || [defaultUrl]).forEach(function (url) {
+      return (renderConfigs.methods || ['GET']).forEach(function (method) {
+        return routerRegister(url, method, renderConfigs.middlewares || [], renderConfigs.controller, renderConfigs.template || null);
+      } // end method
+      );
+    } // end renderConfigs.methods
+    ); // end renderConfigs.urls
     return;
   }
 
@@ -122,7 +146,7 @@ function initSchema(renderConfigs, defaultUrl, rrPath, tplPath) {
       urls: [defaultUrl],
       methods: ['GET'],
       middlewares: [],
-      template: 'dafault'
+      template: null
     }, renderConfig);
 
     var urls = schema.urls;
@@ -130,7 +154,7 @@ function initSchema(renderConfigs, defaultUrl, rrPath, tplPath) {
 
     urls.forEach(function (url) {
       return methods.forEach(function (method) {
-        return routerRegister(url, method, schema.middlewares, schema.controller, schema.controller, tplPath);
+        return routerRegister(url, method, schema.middlewares, schema.controller, schema.template);
       } // end method
       );
     } // end url
@@ -140,21 +164,18 @@ function initSchema(renderConfigs, defaultUrl, rrPath, tplPath) {
 
 function renderRecipe(app, rrPath, tplPath) {
 
+  app.context['$tpls'] = getTplShells(tplPath);
+
   if (!(0, _utils.dirExists)(rrPath)) {
     throw new Error('Wrong path: ' + rrPath);
   }
-  if (!(0, _utils.dirExists)(tplPath)) {
-    throw new Error('Wrong path: ' + tplPath);
-  }
 
-  var files = (0, _glob2.default)(join('**/*.js'), { cwd: rrPath, dot: false, sync: true });
-
-  files.forEach(function (file) {
+  (0, _glob2.default)(join('**/*.js'), { cwd: rrPath, dot: false, sync: true }).forEach(function (file) {
     var renderConfigs = require(join(rrPath, file)).default;
     var defaultUrl = '/' + file.replace('.js', '');
-
     initSchema(renderConfigs, defaultUrl, rrPath, tplPath);
   });
 
+  app.context['$routes'] = routes;
   app.use(router.routes()).use(router.allowedMethods());
 }
