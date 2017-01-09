@@ -3,26 +3,14 @@ import glob from 'glob'
 import compose from 'koa-compose'
 import koaRouter from 'koa-router'
 
-import { dirExists } from '@root/utils'
+import { dirExists, getDirObjs } from '@root/utils'
 
 
 const join = path.join
 const router = koaRouter()
 const routes = []
 
-function getTplShells(tplPath) {
-  if (!dirExists(tplPath)) {
-    throw new Error(`Wrong path: ${tplPath}`)
-  }
-
-  const tplShells = {}
-  glob(join('**/*.js'), { cwd: tplPath, dot: false, sync: true })
-    .forEach(file => tplShells[file.replace('.js', '')] = require(join(tplPath, file)).default)
-
-  return tplShells
-}
-
-function routerRegister(url, method, middlewares, controller, template) {
+function routerRegister(url, method, middlewares, controller, template, page) {
   async function routerController(ctx, next) {
     const serveData = await controller.call(this, ctx, next)
     ctx.$data = Object.assign(ctx.$data || {}, serveData || {})
@@ -36,6 +24,7 @@ function routerRegister(url, method, middlewares, controller, template) {
         middlewares: ctx.$middlewares,
         routes: ctx.$routes,
         tpls: ctx.$tpls,
+        page: ctx.$pages[page],
       })
       ctx.body = tpl.toHtml()
     }
@@ -58,7 +47,8 @@ function routerRegister(url, method, middlewares, controller, template) {
   )
 }
 
-function initSchema(renderConfigs, defaultUrl, rrPath, tplPath) {
+function initSchema(renderConfigs, page, rrPath, tplPath) {
+  const defaultUrl = `/${page}`
   if (!Array.isArray(renderConfigs)) {
     (renderConfigs.urls || [defaultUrl]).forEach(url =>
       (renderConfigs.methods || ['GET']).forEach(
@@ -66,7 +56,8 @@ function initSchema(renderConfigs, defaultUrl, rrPath, tplPath) {
           method,
           renderConfigs.middlewares || [],
           renderConfigs.controller,
-          renderConfigs.template || null
+          renderConfigs.template || null,
+          page
         ) // end method
       ) // end renderConfigs.methods
     ) // end renderConfigs.urls
@@ -95,16 +86,19 @@ function initSchema(renderConfigs, defaultUrl, rrPath, tplPath) {
           method,
           schema.middlewares,
           schema.controller,
-          schema.template
+          schema.template,
+          page
         ) // end method
       ) // end url
     ) // end urls
   })
 }
 
-export default function renderRecipe(app, rrPath, tplPath) {
+// renderRecipePath templatesPath, clientPatesPath
+export default function renderRecipe(app, rrPath, tplPath, cpPath) {
 
-  app.context['$tpls'] = getTplShells(tplPath)
+  app.context['$tpls'] = getDirObjs(tplPath)
+  app.context['$pages'] = getDirObjs(cpPath)
 
   if (!dirExists(rrPath)) {
     throw new Error(`Wrong path: ${rrPath}`)
@@ -113,8 +107,8 @@ export default function renderRecipe(app, rrPath, tplPath) {
   glob(join('**/*.js'), { cwd: rrPath, dot: false, sync: true })
     .forEach(file => {
       const renderConfigs = require(join(rrPath, file)).default
-      const defaultUrl = `/${file.replace('.js', '')}`
-      initSchema(renderConfigs, defaultUrl, rrPath, tplPath)
+      const page = file.replace('.js', '')
+      initSchema(renderConfigs, page, rrPath, tplPath)
     })
 
   app.context['$routes'] = routes

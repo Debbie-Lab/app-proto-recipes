@@ -31,5 +31,5 @@ function recipes(app, config) {
   (0, _context2.default)(app, path.context);
   (0, _middlewares2.default)(app, path.middlewares);
   (0, _datasources2.default)(app, path.datasources, config.mock);
-  (0, _render2.default)(app, path.render, path.templates);
+  (0, _render2.default)(app, path.render, path.templates, path.pages);
 }

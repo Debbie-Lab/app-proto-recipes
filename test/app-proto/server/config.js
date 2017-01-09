@@ -8,6 +8,7 @@ logger(join(__dirname, 'middlewares'))
 logger(join(__dirname, 'render'))
 logger(join(__dirname, 'templates'))
 logger(join(__dirname, 'datasources'))
+logger(join(__dirname, '..', 'client', 'pages'))
 
 export default {
   path: {
@@ -16,6 +17,7 @@ export default {
     render: join(__dirname, 'render'),
     templates: join(__dirname, 'templates'),
     datasources: join(__dirname, 'datasources'),
+    pages: join(__dirname, '..', 'client', 'pages'),
   },
   mock: true,
 }

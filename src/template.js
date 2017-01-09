@@ -4,6 +4,8 @@ export default class Templates {
   constructor(tplParams) {
     this.serveData = Object.assign({}, tplParams.serveData || {})
     this.routes = Object.assign({}, tplParams.routes || [])
+    this.pages = Object.assign({}, tplParams.pages || [])
+    this.page = tplParams.page || null
   }
 
   toHtml() {

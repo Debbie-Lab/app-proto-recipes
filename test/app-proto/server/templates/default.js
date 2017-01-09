@@ -7,12 +7,15 @@ export default class DefaultTpl extends Template {
 
   toHtml() {
     const serveData = JSON.stringify(this.serveData)
+    const page = new this.page
     return `
       <!DOCTYPE html>
       <html>
         <head></head>
         <script>window.serveData=${serveData}</script>
-        <body>服务端渲染的内容</body>
+        <body>
+          ${page.render()}
+        </body>
       </html>
     `
   }

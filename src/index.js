@@ -11,7 +11,7 @@ export default function recipes(app, config) {
   context(app, path.context)
   middlewares(app, path.middlewares)
   datasources(app, path.datasources, config.mock)
-  render(app, path.render, path.templates)
+  render(app, path.render, path.templates, path.pages)
 }
 
 

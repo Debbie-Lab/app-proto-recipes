@@ -16,6 +16,8 @@ var Templates = function () {
 
     this.serveData = Object.assign({}, tplParams.serveData || {});
     this.routes = Object.assign({}, tplParams.routes || []);
+    this.pages = Object.assign({}, tplParams.pages || []);
+    this.page = tplParams.page || null;
   }
 
   _createClass(Templates, [{
