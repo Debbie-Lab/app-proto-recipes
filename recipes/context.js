@@ -19,10 +19,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var join = _path2.default.join;
 
-/**
- * @param {object} app (a koa app instance).
- * @param {string} crPath
- **/
 function contextRecipe(app, crPath) {
 
   if (!(0, _utils.dirExists)(crPath)) {

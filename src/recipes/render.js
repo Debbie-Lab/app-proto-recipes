@@ -17,15 +17,11 @@ function getTplShells(tplPath) {
 
   const tplShells = {}
   glob(join('**/*.js'), { cwd: tplPath, dot: false, sync: true })
-    .forEach(
-      file => tplShells[file.replace('.js', '')] = require(join(tplPath, file)).default)
+    .forEach(file => tplShells[file.replace('.js', '')] = require(join(tplPath, file)).default)
 
   return tplShells
 }
 
-/**
- * @param {string} tplPath
- **/
 function routerRegister(url, method, middlewares, controller, template) {
   async function routerController(ctx, next) {
     const serveData = await controller.call(this, ctx, next)

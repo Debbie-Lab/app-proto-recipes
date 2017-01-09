@@ -2,10 +2,6 @@ import fs from 'fs'
 import path from 'path'
 
 
-
-/**
- * @param {string} directory
- **/
 export function dirExists(directory) {
   try {
     return fs.statSync(path.resolve(directory)).isDirectory()
@@ -13,3 +9,13 @@ export function dirExists(directory) {
     return false
   }
 }
+
+export function accessible() {
+  try {
+    fs.accessSync.apply(fs, arguments)
+    return true
+  } catch(e) {
+    return false
+  }
+}
+

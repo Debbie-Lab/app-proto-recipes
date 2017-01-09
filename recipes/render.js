@@ -44,9 +44,6 @@ function getTplShells(tplPath) {
   return tplShells;
 }
 
-/**
- * @param {string} tplPath
- **/
 function routerRegister(url, method, middlewares, controller, template) {
   var _this = this;
 

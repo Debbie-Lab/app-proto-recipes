@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/Debbie-Lab/app-proto-recipes#readme",
   "dependencies": {
+    "camelcase": "^4.0.0",
     "glob": "^7.0.5",
     "koa": "^2.0.0",
-    "koa-router": "^7.0.1"
+    "koa-router": "^7.0.1",
+    "mockjs": "^1.0.1-beta3"
   },
   "devDependencies": {
     "babel": "^6.5.2",

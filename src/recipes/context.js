@@ -5,11 +5,6 @@ import { dirExists } from '@root/utils'
 
 const join = path.join
 
-
-/**
- * @param {object} app (a koa app instance).
- * @param {string} crPath
- **/
 export default function contextRecipe(app, crPath) {
 
   if (!dirExists(crPath)) {

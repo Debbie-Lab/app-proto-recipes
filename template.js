@@ -8,13 +8,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// @notice 此文件在Node端也会执行（如果涉及Isomorphism 则在此文件中引入前端文件）
+// @notice 此文件在Node端也会执行（如果涉及Isomorphism 则在此文件中引入前端模块的内容）
 
 var Templates = function () {
   function Templates(tplParams) {
     _classCallCheck(this, Templates);
 
-    console.log(tplParams);
     this.serveData = Object.assign({}, tplParams.serveData || {});
     this.routes = Object.assign({}, tplParams.routes || []);
   }

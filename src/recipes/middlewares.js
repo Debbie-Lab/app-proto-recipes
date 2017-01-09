@@ -4,8 +4,8 @@ import compose from 'koa-compose'
 
 import { dirExists } from '@root/utils'
 
-const join = path.join
 
+const join = path.join
 
 export default function middlewaresRecipe(app, mrPath) {
 
