@@ -25,6 +25,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
         routes: ctx.$routes,
         tpls: ctx.$tpls,
         page: ctx.$pages[page],
+        key: page,
       })
       ctx.body = tpl.toHtml()
     }

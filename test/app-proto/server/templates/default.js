@@ -8,6 +8,7 @@ export default class DefaultTpl extends Template {
   toHtml() {
     const serveData = JSON.stringify(this.serveData)
     const page = new this.page
+    console.log(this.key)
     return `
       <!DOCTYPE html>
       <html>

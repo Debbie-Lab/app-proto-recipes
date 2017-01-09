@@ -18,6 +18,7 @@ var Templates = function () {
     this.routes = Object.assign({}, tplParams.routes || []);
     this.pages = Object.assign({}, tplParams.pages || []);
     this.page = tplParams.page || null;
+    this.key = tplParams.key || null;
   }
 
   _createClass(Templates, [{

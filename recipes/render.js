@@ -58,7 +58,8 @@ function routerRegister(url, method, middlewares, controller, template, page) {
                   middlewares: ctx.$middlewares,
                   routes: ctx.$routes,
                   tpls: ctx.$tpls,
-                  page: ctx.$pages[page]
+                  page: ctx.$pages[page],
+                  key: page
                 });
 
                 ctx.body = tpl.toHtml();
