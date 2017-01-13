@@ -49,23 +49,32 @@ function routerRegister(url, method, middlewares, controller, template, page) {
 
               ctx.$data = Object.assign(ctx.$data || {}, serveData || {});
 
-              if (template === null) {
-                ctx.body = ctx.$data;
-              } else {
-                Template = ctx.$tpls[template];
-                tpl = new Template({
-                  serveData: ctx.$data,
-                  middlewares: ctx.$middlewares,
-                  routes: ctx.$routes,
-                  tpls: ctx.$tpls,
-                  page: ctx.$pages[page],
-                  key: page
-                });
-
-                ctx.body = tpl.toHtml();
+              if (!(template === null)) {
+                _context.next = 8;
+                break;
               }
 
-            case 5:
+              ctx.body = ctx.$data;
+              _context.next = 13;
+              break;
+
+            case 8:
+              Template = ctx.$tpls[template];
+              tpl = new Template({
+                serveData: ctx.$data,
+                middlewares: ctx.$middlewares,
+                routes: ctx.$routes,
+                tpls: ctx.$tpls,
+                page: ctx.$pages[page],
+                key: page
+              });
+              _context.next = 12;
+              return tpl.toHtml();
+
+            case 12:
+              ctx.body = _context.sent;
+
+            case 13:
             case 'end':
               return _context.stop();
           }

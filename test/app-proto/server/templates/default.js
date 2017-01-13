@@ -5,9 +5,9 @@ export default class DefaultTpl extends Template {
     super(serveData)
   }
 
-  toHtml() {
-    const serveData = JSON.stringify(this.serveData)
-    const page = new this.page
+  async toHtml() {
+    const serveData = await JSON.stringify(this.serveData)
+    const page =new this.page
     console.log(this.key)
     return `
       <!DOCTYPE html>

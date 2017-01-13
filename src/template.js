@@ -9,7 +9,7 @@ export default class Templates {
     this.key = tplParams.key || null
   }
 
-  toHtml() {
+  async toHtml() {
     return '<!DOCTYPE html><html><body>服务端渲染内容</body></html>'
   }
 }

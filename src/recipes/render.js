@@ -27,7 +27,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
         page: ctx.$pages[page],
         key: page,
       })
-      ctx.body = tpl.toHtml()
+      ctx.body = await tpl.toHtml()
     }
   }
 

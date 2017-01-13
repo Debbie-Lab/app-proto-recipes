@@ -5,8 +5,8 @@ export default class SchemaTpl extends Template {
     super(serveData)
   }
 
-  toHtml() {
-    const serveData = JSON.stringify(this.serveData)
+  async toHtml() {
+    const serveData = await JSON.stringify(this.serveData)
     console.log(serveData)
     console.log(this.serveData)
     return `
