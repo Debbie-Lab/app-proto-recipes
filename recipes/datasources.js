@@ -79,7 +79,7 @@ function datasourcesRecipe(app, drPath) {
     }();
   };
   (0, _glob2.default)(join('**/*.js'), { cwd: drPath, dot: false, sync: true }).map(function (file) {
-    var name = (0, _camelcase2.default)(file.replace('/', ' ').replace(/\.\w+$/, ''));
+    var name = (0, _camelcase2.default)(file.replace(/\//g, ' ').replace(/\.\w+$/, ''));
     ds[name] = dsFunc(join(drPath, file));
   });
 

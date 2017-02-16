@@ -32,7 +32,7 @@ export default function datasourcesRecipe(app, drPath) {
   }
   glob(join('**/*.js'), {cwd: drPath, dot: false, sync: true})
     .map(file => {
-      const name = camelCase(file.replace('/', ' ').replace(/\.\w+$/, ''))
+      const name = camelCase(file.replace(/\//g, ' ').replace(/\.\w+$/, ''))
       ds[name] = dsFunc(join(drPath, file))
     })
 
