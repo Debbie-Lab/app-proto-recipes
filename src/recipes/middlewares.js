@@ -20,12 +20,10 @@ export default function middlewaresRecipe(app, mrPath) {
 
   app.context['$middlewares'] = middlewares
 
-  console.log(join(mrPath, '$global.js'))
   const globMiddlewares = require(join(mrPath, '$global.js')).default
 
-  console.log(globMiddlewares)
   if (!Array.isArray(globMiddlewares)) {
-    throw new Error('$global.js error')
+    throw new Error('$global.js error(must array)')
   }
 
   const availableMiddlewares = []
