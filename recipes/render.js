@@ -55,11 +55,13 @@ function routerRegister(url, method, middlewares, controller, template, page) {
               }
 
               ctx.body = ctx.$data;
-              _context.next = 13;
+              _context.next = 14;
               break;
 
             case 8:
               Template = ctx.$tpls[template];
+
+              console.log(ctx.$pages);
               tpl = new Template({
                 serveData: ctx.$data,
                 middlewares: ctx.$middlewares,
@@ -68,13 +70,13 @@ function routerRegister(url, method, middlewares, controller, template, page) {
                 page: ctx.$pages[page],
                 key: page
               });
-              _context.next = 12;
+              _context.next = 13;
               return tpl.toHtml();
 
-            case 12:
+            case 13:
               ctx.body = _context.sent;
 
-            case 13:
+            case 14:
             case 'end':
               return _context.stop();
           }
@@ -159,10 +161,10 @@ function initSchema(renderConfigs, page, rrPath, tplPath) {
 }
 
 // renderRecipePath templatesPath, clientPatesPath
-function renderRecipe(app, rrPath, tplPath, cpPath) {
+function renderRecipe(app, rrPath, tplPath, cp) {
 
   app.context['$tpls'] = (0, _utils.getDirObjs)(tplPath);
-  app.context['$pages'] = (0, _utils.getDirObjs)(cpPath);
+  app.context['$pages'] = (0, _utils.getDirObjs)(cp.path, cp.whitelist || []);
 
   if (!(0, _utils.dirExists)(rrPath)) {
     throw new Error('Wrong path: ' + rrPath);

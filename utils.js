@@ -40,12 +40,17 @@ function accessible() {
 }
 
 function getDirObjs(dir) {
+  var whitelist = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+
   if (!dirExists(dir)) {
     throw new Error('Wrong path: ' + dir);
   }
 
+  var whiteset = new Set(whitelist);
   var objs = {};
-  (0, _glob2.default)(join('**/*.js'), { cwd: dir, dot: false, sync: true }).forEach(function (file) {
+  (0, _glob2.default)(join('**/*.js'), { cwd: dir, dot: false, sync: true }).filter(function (file) {
+    return !whiteset.has(file);
+  }).forEach(function (file) {
     return objs[file.replace('.js', '')] = require(join(dir, file)).default;
   });
 

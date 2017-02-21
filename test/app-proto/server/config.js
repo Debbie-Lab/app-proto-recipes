@@ -17,7 +17,10 @@ export default {
     render: join(__dirname, 'controllers'),
     templates: join(__dirname, 'templates'),
     datasources: join(__dirname, 'datasources'),
-    pages: join(__dirname, '..', 'client', 'pages'),
+    pages: {
+      path: join(__dirname, '..', 'client', 'pages'),
+      whitelist: ['wl.js'],
+    },
   },
   mock: true,
 }

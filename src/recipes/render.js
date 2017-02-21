@@ -19,6 +19,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
       ctx.body = ctx.$data
     } else {
       const Template = ctx.$tpls[template]
+      console.log(ctx.$pages)
       const tpl = new Template({
         serveData: ctx.$data,
         middlewares: ctx.$middlewares,
@@ -96,10 +97,10 @@ function initSchema(renderConfigs, page, rrPath, tplPath) {
 }
 
 // renderRecipePath templatesPath, clientPatesPath
-export default function renderRecipe(app, rrPath, tplPath, cpPath) {
+export default function renderRecipe(app, rrPath, tplPath, cp) {
 
   app.context['$tpls'] = getDirObjs(tplPath)
-  app.context['$pages'] = getDirObjs(cpPath)
+  app.context['$pages'] = getDirObjs(cp.path, cp.whitelist || [])
 
   if (!dirExists(rrPath)) {
     throw new Error(`Wrong path: ${rrPath}`)
