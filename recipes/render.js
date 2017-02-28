@@ -55,14 +55,13 @@ function routerRegister(url, method, middlewares, controller, template, page) {
               }
 
               ctx.body = ctx.$data;
-              _context.next = 14;
+              _context.next = 13;
               break;
 
             case 8:
               Template = ctx.$tpls[template];
-
-              console.log(ctx.$pages);
               tpl = new Template({
+                ctx: ctx, // Koa Context @see https://github.com/koajs/koa/blob/master/docs/api/context.md
                 serveData: ctx.$data,
                 middlewares: ctx.$middlewares,
                 routes: ctx.$routes,
@@ -70,13 +69,13 @@ function routerRegister(url, method, middlewares, controller, template, page) {
                 page: ctx.$pages[page],
                 key: page
               });
-              _context.next = 13;
+              _context.next = 12;
               return tpl.toHtml();
 
-            case 13:
+            case 12:
               ctx.body = _context.sent;
 
-            case 14:
+            case 13:
             case 'end':
               return _context.stop();
           }

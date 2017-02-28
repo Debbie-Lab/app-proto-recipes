@@ -16,6 +16,7 @@ var Templates = function () {
   function Templates(tplParams) {
     _classCallCheck(this, Templates);
 
+    this.ctx = tplParams.ctx;
     this.serveData = Object.assign({}, tplParams.serveData || {});
     this.routes = Object.assign({}, tplParams.routes || []);
     this.pages = Object.assign({}, tplParams.pages || []);

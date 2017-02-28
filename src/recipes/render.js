@@ -19,8 +19,8 @@ function routerRegister(url, method, middlewares, controller, template, page) {
       ctx.body = ctx.$data
     } else {
       const Template = ctx.$tpls[template]
-      console.log(ctx.$pages)
       const tpl = new Template({
+        ctx,  // Koa Context @see https://github.com/koajs/koa/blob/master/docs/api/context.md
         serveData: ctx.$data,
         middlewares: ctx.$middlewares,
         routes: ctx.$routes,
