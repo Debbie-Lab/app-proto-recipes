@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+gitbook build
+
+cd _book
+
+git init
+git add --all
+git commit -m "deploy $(date) "
+git push --force --quiet "git@github.com:Debbie-Lab/app-proto-recipes.git" master:docs

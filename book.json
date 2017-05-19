@@ -1,0 +1,10 @@
+{
+  "root": "./docs",
+  "author": "solome",
+  "pluginsConfig": {
+    "fontsettings": {
+      "theme": "sepia",
+      "family": "sans"
+    }
+  }
+}
