@@ -40,7 +40,7 @@ function accessible() {
 }
 
 function getDirObjs(dir) {
-  var whitelist = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+  var whitelist = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
   if (!dirExists(dir)) {
     throw new Error('Wrong path: ' + dir);

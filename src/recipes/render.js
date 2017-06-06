@@ -13,6 +13,16 @@ const routes = []
 function routerRegister(url, method, middlewares, controller, template, page) {
   async function routerController(ctx, next) {
     const serveData = await controller.call(this, ctx, next)
+
+    if (typeof ctx.body !== 'undefined') {
+      return
+    }
+
+    if (typeof serveData !== 'object') {
+      ctx.body = serveData
+      return
+    }
+
     ctx.$data = Object.assign(ctx.$data || {}, serveData || {})
 
     if (template === null) {
