@@ -3,6 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 exports.default = renderRecipe;
 
 var _path = require('path');
@@ -25,7 +28,7 @@ var _utils = require('../utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var join = _path2.default.join;
 var router = (0, _koaRouter2.default)();
@@ -47,18 +50,36 @@ function routerRegister(url, method, middlewares, controller, template, page) {
             case 2:
               serveData = _context.sent;
 
-              ctx.$data = Object.assign(ctx.$data || {}, serveData || {});
+              if (!(typeof ctx.body !== 'undefined')) {
+                _context.next = 5;
+                break;
+              }
 
-              if (!(template === null)) {
+              return _context.abrupt('return');
+
+            case 5:
+              if (!((typeof serveData === 'undefined' ? 'undefined' : _typeof(serveData)) !== 'object')) {
                 _context.next = 8;
                 break;
               }
 
-              ctx.body = ctx.$data;
-              _context.next = 13;
-              break;
+              ctx.body = serveData;
+              return _context.abrupt('return');
 
             case 8:
+
+              ctx.$data = Object.assign(ctx.$data || {}, serveData || {});
+
+              if (!(template === null)) {
+                _context.next = 13;
+                break;
+              }
+
+              ctx.body = ctx.$data;
+              _context.next = 18;
+              break;
+
+            case 13:
               Template = ctx.$tpls[template];
               tpl = new Template({
                 ctx: ctx, // Koa Context @see https://github.com/koajs/koa/blob/master/docs/api/context.md
@@ -69,13 +90,13 @@ function routerRegister(url, method, middlewares, controller, template, page) {
                 page: ctx.$pages[page],
                 key: page
               });
-              _context.next = 12;
+              _context.next = 17;
               return tpl.toHtml();
 
-            case 12:
+            case 17:
               ctx.body = _context.sent;
 
-            case 13:
+            case 18:
             case 'end':
               return _context.stop();
           }
@@ -127,12 +148,12 @@ function initSchema(renderConfigs, page, rrPath, tplPath) {
   if (!Array.isArray(renderConfigs)) {
     (renderConfigs.urls || [defaultUrl]).forEach(function (url) {
       return (renderConfigs.methods || ['GET']).forEach(function (method) {
-        return routerRegister(url, method, renderConfigs.middlewares || [], renderConfigs.controller, renderConfigs.template || null, page);
-      } // end method
+        return routerRegister(url, method, renderConfigs.middlewares || [], renderConfigs.controller, renderConfigs.template || null, page // end method
+        );
+      } // end renderConfigs.methods
       );
-    } // end renderConfigs.methods
-    ); // end renderConfigs.urls
-    return;
+    } // end renderConfigs.urls
+    );return;
   }
 
   renderConfigs.forEach(function (renderConfig) {
@@ -151,11 +172,12 @@ function initSchema(renderConfigs, page, rrPath, tplPath) {
 
     urls.forEach(function (url) {
       return methods.forEach(function (method) {
-        return routerRegister(url, method, schema.middlewares, schema.controller, schema.template, page);
-      } // end method
+        return routerRegister(url, method, schema.middlewares, schema.controller, schema.template, page // end method
+        );
+      } // end url
       );
-    } // end url
-    ); // end urls
+    } // end urls
+    );
   });
 }
 
