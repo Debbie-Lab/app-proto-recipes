@@ -19,7 +19,7 @@ export default [
   {
     urls: ['/bar'],
     controller: async function (ctx) {
-      ctx.render('schema', {status: 0, data: {foo: 'hello', bar: 'world'}}, page)
+      ctx.render('schema', {status: 0, data: {foo: 'hello', bar: 'world'}}, 'default')
     },
   },
 ]

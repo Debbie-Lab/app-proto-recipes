@@ -54,8 +54,6 @@ function routerRegister(url, method, middlewares, controller, template, page) {
                       switch (_context.prev = _context.next) {
                         case 0:
                           Template = ctx.$tpls[tpl];
-
-                          console.log('.................', { data: data, page: page, serveBundle: ctx.$bundles[page] });
                           template = new Template({
                             ctx: ctx, page: page,
                             serveData: data,
@@ -66,13 +64,13 @@ function routerRegister(url, method, middlewares, controller, template, page) {
                             console.warn('\'ctx.body\' has been assigned: ' + ctx.body);
                           }
 
-                          _context.next = 6;
+                          _context.next = 5;
                           return template.toHtml();
 
-                        case 6:
+                        case 5:
                           ctx.body = _context.sent;
 
-                        case 7:
+                        case 6:
                         case 'end':
                           return _context.stop();
                       }

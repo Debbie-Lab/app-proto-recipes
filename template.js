@@ -14,7 +14,6 @@ var Templates = function () {
   function Templates(params) {
     _classCallCheck(this, Templates);
 
-    console.log(params);
     this.ctx = params.ctx;
     this.page = params.page || null;
     this.serveData = params.serveData || {};
