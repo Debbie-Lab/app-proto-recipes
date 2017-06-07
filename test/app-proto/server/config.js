@@ -14,10 +14,10 @@ export default {
   path: {
     context: join(__dirname, 'context'),
     middlewares: join(__dirname, 'middlewares'),
-    render: join(__dirname, 'controllers'),
+    controllers: join(__dirname, 'controllers'),
     templates: join(__dirname, 'templates'),
     datasources: join(__dirname, 'datasources'),
-    pages: {
+    bundles: {
       path: join(__dirname, '..', 'client', 'pages'),
       whitelist: ['wl.js'],
     },

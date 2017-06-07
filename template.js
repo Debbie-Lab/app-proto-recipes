@@ -10,18 +10,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// @notice 此文件在Node端也会执行（如果涉及Isomorphism 则在此文件中引入前端模块的内容）
-
 var Templates = function () {
-  function Templates(tplParams) {
+  function Templates(params) {
     _classCallCheck(this, Templates);
 
-    this.ctx = tplParams.ctx;
-    this.serveData = Object.assign({}, tplParams.serveData || {});
-    this.routes = Object.assign({}, tplParams.routes || []);
-    this.pages = Object.assign({}, tplParams.pages || []);
-    this.page = tplParams.page || null;
-    this.key = tplParams.key || null;
+    this.ctx = params.ctx;
+    this.page = params.page || null;
+    this.serveData = params.serveData || {};
+    this.serveBundle = params.serveBundle || null;
   }
 
   _createClass(Templates, [{
@@ -32,7 +28,7 @@ var Templates = function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt('return', '<!DOCTYPE html><html><body>服务端渲染内容</body></html>');
+                return _context.abrupt('return', '\n      <!DOCTYPE html>\n      <html>\n        <head>\n          <meta charset="UTF-8">\n          <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">\n          <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">\n        </head>\n        <body>\n          <main>' + 'Live for nothing or die for something.' + '</main>\n        </body>\n      </html>\n    ');
 
               case 1:
               case 'end':

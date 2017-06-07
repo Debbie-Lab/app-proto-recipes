@@ -10,10 +10,16 @@ export default [
   },
   {
     urls: ['/s'],
-    methods: ['POST'],
+    methods: ['POST', 'GET'],
     middlewares: ['schema-logger'],
     controller: async function (ctx) {
       return {status: 0, data: {foo: 'hello', bar: 'world'}}
+    },
+  },
+  {
+    urls: ['/bar'],
+    controller: async function (ctx) {
+      ctx.render('schema', {status: 0, data: {foo: 'hello', bar: 'world'}}, 'default')
     },
   },
 ]

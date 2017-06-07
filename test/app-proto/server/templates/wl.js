@@ -8,14 +8,14 @@ export default class DefaultTpl extends Template {
   async toHtml() {
     const serveData = await JSON.stringify(this.serveData)
     console.log(null === this.page)
-    console.log(this.key)
+    console.log(this.page)
     return `
       <!DOCTYPE html>
       <html>
         <head></head>
         <script>window.serveData=${serveData}</script>
         <body>
-          JS-CDN:${this.key}
+          JS-CDN:${this.page}
         </body>
       </html>
     `

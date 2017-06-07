@@ -1,0 +1,12 @@
+@url(['schema-v2'])
+@post
+@get
+@middlewares(['schema-logger'])
+class Schema {
+  async controller(ctx, next) {
+    ctx.render(tpl, serveData, app)
+    ctx.json()
+  }
+}
+
+export Schema;
