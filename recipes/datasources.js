@@ -17,6 +17,10 @@ var _mockjs = require('mockjs');
 
 var _mockjs2 = _interopRequireDefault(_mockjs);
 
+var _hjson = require('hjson');
+
+var _hjson2 = _interopRequireDefault(_hjson);
+
 var _camelcase = require('camelcase');
 
 var _camelcase2 = _interopRequireDefault(_camelcase);
@@ -27,8 +31,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+require("hjson/lib/require-config");
+
 var join = _path2.default.join;
 var mock = _mockjs2.default.mock;
+var parse = _hjson2.default.parse;
+
+function fnGetMockData(file) {
+  var fileName = file.substr(0, /\.js$/.exec(file).index);
+
+  var fileJson = fileName + '.json';
+  if ((0, _utils.accessible)(fileJson)) {
+    return mock(require(fileJson));
+  }
+
+  var fileHjson = fileName + '.hjson';
+  if ((0, _utils.accessible)(fileHjson)) {
+    return require(fileHjson);
+  }
+
+  console.warn('Empty mock data: ' + file);
+  return {};
+}
 
 function datasourcesRecipe(app, drPath) {
   if (!(0, _utils.dirExists)(drPath)) {
@@ -41,9 +65,8 @@ function datasourcesRecipe(app, drPath) {
     if (!app.context.$config.mock) {
       return func;
     }
-    var mockFile = dsFile.replace('.js', '.json');
-    var mockData = (0, _utils.accessible)(mockFile) ? mock(require(mockFile)) : {};
 
+    var mockData = fnGetMockData(dsFile);
     return function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ctx, params) {
         var mock = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;

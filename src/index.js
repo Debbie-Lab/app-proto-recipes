@@ -1,6 +1,6 @@
 import context from '@recipes/context'
 import middlewares from '@recipes/middlewares'
-import render from '@recipes/render'
+import controller from '@recipes/controller'
 import datasources from '@recipes/datasources'
 
 export default function recipes(app, config) {
@@ -11,7 +11,7 @@ export default function recipes(app, config) {
   context(app, path.context)
   middlewares(app, path.middlewares)
   datasources(app, path.datasources, config.mock)
-  render(app, path.render, path.templates, path.pages)
+  controller(app, path.controllers, path.templates, path.bundles)
 }
 
 

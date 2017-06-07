@@ -1,6 +1,6 @@
 {
   "name": "app-proto-recipes",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Read the specification of directories (for app-proto scaffold).",
   "main": "index.js",
   "directories": {
@@ -24,10 +24,11 @@
   },
   "homepage": "https://github.com/Debbie-Lab/app-proto-recipes#readme",
   "dependencies": {
-    "camelcase": "^4.0.0",
-    "glob": "^7.0.5",
-    "koa": "^2.0.0",
-    "koa-router": "^7.0.1",
+    "camelcase": "^4.1.0",
+    "glob": "^7.1.2",
+    "hjson": "^2.4.2",
+    "koa": "^2.2.0",
+    "koa-router": "^7.2.0",
     "mockjs": "^1.0.1-beta3"
   },
   "devDependencies": {

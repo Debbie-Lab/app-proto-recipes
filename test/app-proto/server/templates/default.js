@@ -3,12 +3,13 @@ import Template from 'app-proto-recipes/template'
 export default class DefaultTpl extends Template {
   constructor(serveData) {
     super(serveData)
+    console.log(serveData)
   }
 
   async toHtml() {
     const serveData = await JSON.stringify(this.serveData)
-    const page =new this.page
-    console.log(this.key)
+    const page =new this.serveBundle
+    console.log(this.page)
     return `
       <!DOCTYPE html>
       <html>
