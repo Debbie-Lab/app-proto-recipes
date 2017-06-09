@@ -212,7 +212,6 @@ function controllerRecipe(app, controllerPath, tplPath, bundlesConfig) {
 
   app.context['$tpls'] = (0, _utils.getDirObjs)(tplPath);
   app.context['$bundles'] = (0, _utils.getDirObjs)(bundlesConfig.path, bundlesConfig.whitelist || []);
-  console.log(app.context['$bundles']);
 
   if (!(0, _utils.dirExists)(controllerPath)) {
     throw new Error('Wrong path: ' + controllerPath);

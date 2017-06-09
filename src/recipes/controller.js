@@ -117,7 +117,6 @@ export default function controllerRecipe(app, controllerPath, tplPath, bundlesCo
 
   app.context['$tpls'] = getDirObjs(tplPath)
   app.context['$bundles'] = getDirObjs(bundlesConfig.path, bundlesConfig.whitelist || [])
-  console.log(app.context['$bundles'])
 
   if (!dirExists(controllerPath)) {
     throw new Error(`Wrong path: ${controllerPath}`)
