@@ -12,11 +12,11 @@ app.use(ctx => {
   ctx.$ds            // 「只读」    datasources
   ctx.$middlewares   // 「只读」    middlewares   中间件列表
   ctx.$tpls          // 「只读」    templates     可以采用的渲染模板
-  ctx.$pages         // 「只读」    pages         能被渲染的页面
+  ctx.$bundles       // 「只读」    bundles       能被渲染的页面(前端构建用于SSR)
 })
 ```
 
->需要注意的是`ctx.$routes`、`ctx.$middlewares`、`ctx.$tpls`和`ctx.$pages`在开发中一般不会被使用到，主要用途在于调试。 关于Koa上下文介绍详见： https://github.com/koajs/koa/blob/master/docs/api/context.md。
+>需要注意的是`ctx.$routes`、`ctx.$middlewares`、`ctx.$tpls`和`ctx.$pages`在开发中一般不会被使用到，主要用途在于调试。 关于Koa上下文介绍详见：[https://github.com/koajs/koa/blob/master/docs/api/context.md](https://github.com/koajs/koa/blob/master/docs/api/context.md)。
 
 如果你想给`ctx`扩展新的对象，可以在目录`server/context`新建一个`.js`文件(要求抛出一个类)，
 在Koa应用启动时会自动扩展至`ctx`中。比如，在每个中间件中可能都会使用到`http`(发请求)，
@@ -49,3 +49,4 @@ app.use(ctx => {
 ```
 
 原则上，对于那些初始化工作稍重的对象都建议采用扩展`Context`的方式实现，典型的如数据库连接实例等。
+

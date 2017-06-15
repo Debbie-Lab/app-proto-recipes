@@ -1,5 +1,110 @@
+* {
+  -webkit-font-smoothing: auto !important;
+}
+
 .book .book-summary, .book .book-body  {
-  font-family: X-LocaleSpecific, Ubuntu, 'Droid Sans', sans-serif;
+  font-size: 16px;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65em;
+}
+
+.dropdown.pull-left.font-settings {
+  display: none;
+}
+
+.book.color-theme-1 .book-body {
+  color: #364149;
+  background: white;
+}
+
+.book.color-theme-1 .book-body .page-wrapper .page-inner section {
+  background: white;
+}
+
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal {
+  color: #7b7b7b;
+}
+
+.book.color-theme-1 .book-summary {
+  color: white;
+  background: #25799f;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.book.color-theme-1 .book-summary ul.summary li a, .book.color-theme-1 .book-summary ul.summary li span {
+  color: white;
+  font-style: oblique;
+  background: transparent;
+  font-weight: normal;
+}
+
+.book.color-theme-1 .book-summary ul.summary li.active > a, .book.color-theme-1 .book-summary ul.summary li a:hover {
+  color: white;
+  background: #175875;
+  font-weight: normal;
+}
+
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal code {
+  padding: .2rem .4rem;
+  font-size: 90%;
+  color: #bd4147;
+  background-color: #f7f7f9;
+}
+
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal pre,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal code.lang-js {
+  background: #f7f7f9;
+  color: #657b83 !important;
+  border-color: #f8df9c;
+}
+
+code, kbd, pre, samp, .markdown-section code, .markdown-section pre {
+  font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal a {
+  color: #117cad;
+}
+
+.book.color-theme-1 .book-header .btn {
+  color: #117cad;
+}
+
+.book.color-theme-1 .book-header .btn:hover {
+  color: #175875;
+}
+
+.book.font-size-0 .book-body .page-inner section {
+  font-size: 1rem;
+}
+.book.font-size-1 .book-body .page-inner section {
+  font-size: 14px;
+}
+.book.font-size-2 .book-body .page-inner section {
+  font-size: 16px;
+}
+.book.font-size-3 .book-body .page-inner section {
+  font-size: 18px;
+}
+.book.font-size-4 .book-body .page-inner section {
+  font-size: 2rem;
+}
+.markdown-section h1,
+.markdown-section h2,
+.markdown-section h3 {
+  color:#364149 !important
+}
+
+.markdown-section h1 {
+  font-size: 1.5em;
+}
+
+.markdown-section h2 {
+  font-size: 1.35em;
+}
+
+.markdown-section h3 {
+  font-size: 1.15em;
 }
 
 
