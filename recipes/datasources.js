@@ -13,13 +13,21 @@ var _glob = require('glob');
 
 var _glob2 = _interopRequireDefault(_glob);
 
+var _hjson = require('hjson');
+
+var _hjson2 = _interopRequireDefault(_hjson);
+
 var _mockjs = require('mockjs');
 
 var _mockjs2 = _interopRequireDefault(_mockjs);
 
-var _hjson = require('hjson');
+var _lruCache = require('lru-cache');
 
-var _hjson2 = _interopRequireDefault(_hjson);
+var _lruCache2 = _interopRequireDefault(_lruCache);
+
+var _objectHash = require('object-hash');
+
+var _objectHash2 = _interopRequireDefault(_objectHash);
 
 var _camelcase = require('camelcase');
 
@@ -54,7 +62,20 @@ function fnGetMockData(file) {
   return {};
 }
 
+// lru-caches options
+var opts = {
+  length: function length(n, key) {
+    return n * 2 + key.length;
+  },
+  dispose: function dispose(key, n) {
+    n.close;
+  },
+  maxAge: 1000 * 60 * 30
+};
+
 function datasourcesRecipe(app, drPath) {
+  app.context['$caches'] = (0, _lruCache2.default)(opts);
+
   if (!(0, _utils.dirExists)(drPath)) {
     throw new Error('Wrong path: ' + drPath);
   }
@@ -70,6 +91,9 @@ function datasourcesRecipe(app, drPath) {
     return function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ctx, params) {
         var mock = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+        var cache = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+        var age = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 5000;
+        var key, value;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -82,13 +106,37 @@ function datasourcesRecipe(app, drPath) {
                 return _context.abrupt('return', mockData);
 
               case 2:
-                _context.next = 4;
+                if (cache) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 5;
                 return func(ctx, params);
 
-              case 4:
+              case 5:
                 return _context.abrupt('return', _context.sent);
 
-              case 5:
+              case 6:
+                key = (0, _objectHash2.default)(dsFile + '-' + params);
+
+                if (ctx.$caches.has(key)) {
+                  _context.next = 12;
+                  break;
+                }
+
+                _context.next = 10;
+                return func(ctx, params);
+
+              case 10:
+                value = _context.sent;
+
+                ctx.$caches.set(key, value, age);
+
+              case 12:
+                return _context.abrupt('return', ctx.$caches.get(key));
+
+              case 13:
               case 'end':
                 return _context.stop();
             }

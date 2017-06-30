@@ -29,7 +29,9 @@
     "hjson": "^2.4.2",
     "koa": "^2.2.0",
     "koa-router": "^7.2.0",
-    "mockjs": "^1.0.1-beta3"
+    "lru-cache": "^4.1.1",
+    "mockjs": "^1.0.1-beta3",
+    "object-hash": "^1.1.8"
   },
   "devDependencies": {
     "babel": "^6.5.2",
