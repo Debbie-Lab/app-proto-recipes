@@ -2,8 +2,10 @@ require("hjson/lib/require-config")
 
 import path from 'path'
 import glob from 'glob'
-import mockjs from 'mockjs'
 import Hjson from 'hjson'
+import mockjs from 'mockjs'
+import LRU from 'lru-cache'
+import hash from 'object-hash'
 import camelCase from 'camelcase'
 
 import { dirExists, accessible } from '@root/utils'
@@ -30,7 +32,16 @@ function fnGetMockData(file) {
   return {}
 }
 
+// lru-caches options
+const opts = {
+  length: function(n, key) { return n * 2 + key.length },
+  dispose: function(key, n) { n.close },
+  maxAge: 1000 * 60 * 30,
+}
+
 export default function datasourcesRecipe(app, drPath) {
+  app.context['$caches'] = LRU(opts)
+
   if (!dirExists(drPath)) {
     throw new Error(`Wrong path: ${drPath}`)
   }
@@ -43,11 +54,19 @@ export default function datasourcesRecipe(app, drPath) {
     }
 
     const mockData = fnGetMockData(dsFile)
-    return async function(ctx, params, mock = false) {
+    return async function(ctx, params, mock = false, cache = false, age = 5000) {
       if (mock) {
         return mockData
       }
-      return await func(ctx, params)
+      if (!cache) {
+        return await func(ctx, params)
+      }
+      const key = hash(`${dsFile}-${params}`)
+      if (!ctx.$caches.has(key)) {
+        const value = await func(ctx, params)
+        ctx.$caches.set(key, value, age)
+      }
+      return ctx.$caches.get(key)
     }
   }
   glob(join('**/*.js'), {cwd: drPath, dot: false, sync: true})

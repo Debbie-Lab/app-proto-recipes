@@ -3,9 +3,8 @@ const api = 'https://api.unsplash.com/users/r3dmax?client_id=05c48433144b0f28724
 
 export default async function(ctx, params) {
   const http = ctx.http
-  console.log(http)
-
   const result = await http.get(api)
 
+  console.log('unsplash.users.result => fresh', Date.now())
   return result
 }
