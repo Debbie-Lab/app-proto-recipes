@@ -29,7 +29,7 @@ export function getDirObjs(dir, whitelist=[]) {
   const objs = {}
   glob(join('**/*.js'), { cwd: dir, dot: false, sync: true })
     .filter(file => !whiteset.has(file))
-    .forEach(file => objs[file.replace('.js', '')] = require(join(dir, file)).default)
+    .forEach(file => objs[file.replace(/\.\w+$/, '')] = require(join(dir, file)).default)
 
   return objs
 }

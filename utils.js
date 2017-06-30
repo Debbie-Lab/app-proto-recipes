@@ -51,7 +51,7 @@ function getDirObjs(dir) {
   (0, _glob2.default)(join('**/*.js'), { cwd: dir, dot: false, sync: true }).filter(function (file) {
     return !whiteset.has(file);
   }).forEach(function (file) {
-    return objs[file.replace('.js', '')] = require(join(dir, file)).default;
+    return objs[file.replace(/\.\w+$/, '')] = require(join(dir, file)).default;
   });
 
   return objs;
