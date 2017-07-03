@@ -51,7 +51,7 @@ export default {
 需要注意的是，所引入的中间件索引需在`server/middlewares`目录下有定义，且避免与`$global.js`引入冲突。
 
 ### template 索引
-指定该次请求欲渲染的模板文件索引，如果设定，`controller()`函数的返回值则为该模板的模板参数。需要注意的是：
+指定该次请求欲渲染的模板文件索引。如果指定template，`controller()`函数的返回值则为该模板的模板参数。需要注意的是：
 - 如果指定模板，但是`controller()`函数没有返回值则该模板设置无效。
 - 模板渲染会覆盖之前所有的`ctx.body=***`赋值，如果不想`ctx.body`被覆盖，请勿在`controller()`函数中添加返回值。
 - 模板文件的索引需在`server/templates`目录下有定义。
@@ -74,7 +74,7 @@ ctx.render(
 )
 ```
 
-最后，controller文件亦可以数组的形式写入（数组形式url推断将无效），
+最后，controller文件亦可以数组的形式写入（需要注意的是：数组形式url推断将无效，需明确指定url）。
 
 ## 更多举例
 

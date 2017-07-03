@@ -15,8 +15,8 @@
 
 ### 数据模拟
 
->`.json`  => [Introducing JSON](http://www.json.org/)  
-`.hson`  => [Hjson](http://hjson.org/), a user interface for JSON  
-`.mock`   => [Mock.js](http://mockjs.com), a simulation data generator 
+>`.json`  => [Introducing JSON](http://www.json.org/)
+`.hson`  => [Hjson](http://hjson.org/), a user interface for JSON
+`.mock`   => [Mock.js](http://mockjs.com), a simulation data generator
 
 ### 缓存请求
