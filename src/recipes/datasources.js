@@ -61,7 +61,7 @@ export default function datasourcesRecipe(app, drPath) {
       if (!cache) {
         return await func(ctx, params)
       }
-      const key = hash(`${dsFile}-${params}`)
+      const key = `${dsFile}-${hash(params)}`
       if (!ctx.$caches.has(key)) {
         const value = await func(ctx, params)
         ctx.$caches.set(key, value, age)

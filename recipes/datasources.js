@@ -118,7 +118,7 @@ function datasourcesRecipe(app, drPath) {
                 return _context.abrupt('return', _context.sent);
 
               case 6:
-                key = (0, _objectHash2.default)(dsFile + '-' + params);
+                key = dsFile + '-' + (0, _objectHash2.default)(params);
 
                 if (ctx.$caches.has(key)) {
                   _context.next = 12;
