@@ -54,14 +54,15 @@ export default function datasourcesRecipe(app, drPath) {
     }
 
     const mockData = fnGetMockData(dsFile)
-    return async function(ctx, params, mock = false, cache = false, age = 5000) {
+    return async function(ctx, params, otherOpts = {}) {
+      const { mock, cache, age, cacheKey } = Object.assign({ mock: false, cache: false, age: 5000, cacheKey: null }, otherOpts)
       if (mock) {
         return mockData
       }
       if (!cache) {
         return await func(ctx, params)
       }
-      const key = `${dsFile}-${hash(params)}`
+      const key = (cacheKey === null) ? `${dsFile}-${hash(params)}` : cacheKey()
       if (!ctx.$caches.has(key)) {
         const value = await func(ctx, params)
         ctx.$caches.set(key, value, age)

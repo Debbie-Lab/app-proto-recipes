@@ -13,6 +13,15 @@
 
 ## 使用方法
 
+```js
+ctx.$ds[''](ctx, params, {
+  mock: false,          // 是否采用mock数据
+  cache: false,         // 是否启用缓存
+  age: 5000,            // 缓存有效时间，cache值为`true`生效
+  cacheKey: null,       // 缓存key生成回调，cache值为`true`生效，默认计算方式为`${ds-path}-${hash(params)}`
+})
+```
+
 ### 数据模拟
 
 >`.json`  => [Introducing JSON](http://www.json.org/)

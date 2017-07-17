@@ -90,53 +90,55 @@ function datasourcesRecipe(app, drPath) {
     var mockData = fnGetMockData(dsFile);
     return function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ctx, params) {
-        var mock = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        var cache = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-        var age = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 5000;
-        var key, value;
+        var otherOpts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+        var _Object$assign, mock, cache, age, cacheKey, key, value;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _Object$assign = Object.assign({ mock: false, cache: false, age: 5000, cacheKey: null }, otherOpts), mock = _Object$assign.mock, cache = _Object$assign.cache, age = _Object$assign.age, cacheKey = _Object$assign.cacheKey;
+
                 if (!mock) {
-                  _context.next = 2;
+                  _context.next = 3;
                   break;
                 }
 
                 return _context.abrupt('return', mockData);
 
-              case 2:
+              case 3:
                 if (cache) {
-                  _context.next = 6;
+                  _context.next = 7;
                   break;
                 }
 
-                _context.next = 5;
+                _context.next = 6;
                 return func(ctx, params);
-
-              case 5:
-                return _context.abrupt('return', _context.sent);
 
               case 6:
-                key = dsFile + '-' + (0, _objectHash2.default)(params);
+                return _context.abrupt('return', _context.sent);
+
+              case 7:
+                key = cacheKey === null ? dsFile + '-' + (0, _objectHash2.default)(params) : cacheKey();
 
                 if (ctx.$caches.has(key)) {
-                  _context.next = 12;
+                  _context.next = 13;
                   break;
                 }
 
-                _context.next = 10;
+                _context.next = 11;
                 return func(ctx, params);
 
-              case 10:
+              case 11:
                 value = _context.sent;
 
                 ctx.$caches.set(key, value, age);
 
-              case 12:
+              case 13:
                 return _context.abrupt('return', ctx.$caches.get(key));
 
-              case 13:
+              case 14:
               case 'end':
                 return _context.stop();
             }
