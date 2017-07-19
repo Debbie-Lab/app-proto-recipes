@@ -30,10 +30,30 @@ function middlewaresRecipe(app, mrPath) {
   }
 
   var middlewares = [];
-  (0, _glob2.default)(join('*.js'), { cwd: mrPath, dot: false, sync: true }).filter(function (file) {
+
+  var assign = function assign(name, mw) {
+    if (typeof middlewares[name] !== 'undefined') {
+      new Error('Middleware is re-registered: ' + name);
+    } else {
+      middlewares[name] = mw;
+    }
+  };
+
+  var pkgPath = join(mrPath, '$pkges.js');
+  if ((0, _utils.accessible)(pkgPath)) {
+    var pkges = require(pkgPath).default;
+    if (!Array.isArray(pkges)) {
+      throw new Error('"' + pkgPath + '" error: must array');
+    }
+    pkges.forEach(function (pkg) {
+      return assign(pkg, require(pkg).default);
+    });
+  }
+
+  (0, _glob2.default)(join('**/*.js'), { cwd: mrPath, dot: false, sync: true }).filter(function (file) {
     return !file.startsWith('$');
   }).map(function (file) {
-    return middlewares[file.replace('.js', '')] = require(join(mrPath, file)).default;
+    return assign(file.replace('.js', ''), require(join(mrPath, file)).default);
   });
 
   app.context['$middlewares'] = middlewares;
@@ -41,7 +61,7 @@ function middlewaresRecipe(app, mrPath) {
   var globMiddlewares = require(join(mrPath, '$global.js')).default;
 
   if (!Array.isArray(globMiddlewares)) {
-    throw new Error('$global.js error(must array)');
+    throw new Error('"$global.js" error: must array');
   }
 
   var availableMiddlewares = [];

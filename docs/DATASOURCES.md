@@ -17,7 +17,7 @@
 ctx.$ds[''](ctx, params, {
   mock: false,          // 是否采用mock数据
   cache: false,         // 是否启用缓存
-  age: 5000,            // 缓存有效时间，cache值为`true`生效
+  cacheAge: 5000,       // 缓存有效时间，cache值为`true`生效
   cacheKey: null,       // 缓存key生成回调，cache值为`true`生效，默认计算方式为`${ds-path}-${hash(params)}`
 })
 ```

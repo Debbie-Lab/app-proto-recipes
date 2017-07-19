@@ -4,7 +4,7 @@
 @middlewares(['schema-logger'])
 class Schema {
   async controller(ctx, next) {
-    ctx.render(tpl, serveData, app)
+    await ctx.render(tpl, serveData, app)
     ctx.json()
   }
 }

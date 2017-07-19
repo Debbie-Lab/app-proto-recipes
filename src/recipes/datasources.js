@@ -28,7 +28,6 @@ function fnGetMockData(file) {
     return require(fileHjson)
   }
 
-  console.warn(`Empty mock data: ${file}`)
   return {}
 }
 
@@ -55,7 +54,13 @@ export default function datasourcesRecipe(app, drPath) {
 
     const mockData = fnGetMockData(dsFile)
     return async function(ctx, params, otherOpts = {}) {
-      const { mock, cache, age, cacheKey } = Object.assign({ mock: false, cache: false, age: 5000, cacheKey: null }, otherOpts)
+      const { mock, cache, cacheAge, cacheKey } = Object.assign(
+        {
+          mock: false,
+          cache: false,
+          cacheAge: 5000,
+          cacheKey: null,
+        }, otherOpts)
       if (mock) {
         return mockData
       }
@@ -65,7 +70,7 @@ export default function datasourcesRecipe(app, drPath) {
       const key = (cacheKey === null) ? `${dsFile}-${hash(params)}` : cacheKey()
       if (!ctx.$caches.has(key)) {
         const value = await func(ctx, params)
-        ctx.$caches.set(key, value, age)
+        ctx.$caches.set(key, value, cacheAge)
       }
       return ctx.$caches.get(key)
     }

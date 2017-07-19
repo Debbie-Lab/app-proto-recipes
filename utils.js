@@ -32,7 +32,7 @@ function dirExists(directory) {
 
 function accessible() {
   try {
-    _fs2.default.accessSync.apply(_fs2.default, arguments);
+    _fs2.default.gccessSync.apply(_fs2.default, arguments);
     return true;
   } catch (e) {
     return false;

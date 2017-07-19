@@ -2,7 +2,7 @@ import path from 'path'
 import glob from 'glob'
 import compose from 'koa-compose'
 
-import { dirExists } from '@root/utils'
+import { dirExists, accessible} from '@root/utils'
 
 
 const join = path.join
@@ -14,16 +14,34 @@ export default function middlewaresRecipe(app, mrPath) {
   }
 
   const middlewares = []
-  glob(join('*.js'), { cwd: mrPath, dot: false, sync: true })
+
+  const assign = (name, mw) => {
+    if (typeof middlewares[name] !== 'undefined') {
+      new Error(`Middleware is re-registered: ${name}`)
+    } else {
+      middlewares[name] = mw
+    }
+  }
+
+  const pkgPath = join(mrPath, '$pkges.js')
+  if (accessible(pkgPath)) {
+    const pkges = require(pkgPath).default
+    if (!Array.isArray(pkges)) {
+      throw new Error(`"${pkgPath}" error: must array`)
+    }
+    pkges.forEach(pkg => assign(pkg, require(pkg).default))
+  }
+
+  glob(join('**/*.js'), { cwd: mrPath, dot: false, sync: true })
     .filter(file => !file.startsWith('$'))
-    .map(file => middlewares[file.replace('.js', '')] = require(join(mrPath, file)).default)
+    .map(file => assign(file.replace('.js', ''), require(join(mrPath, file)).default))
 
   app.context['$middlewares'] = middlewares
 
   const globMiddlewares = require(join(mrPath, '$global.js')).default
 
   if (!Array.isArray(globMiddlewares)) {
-    throw new Error('$global.js error(must array)')
+    throw new Error('"$global.js" error: must array')
   }
 
   const availableMiddlewares = []

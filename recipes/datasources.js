@@ -58,7 +58,6 @@ function fnGetMockData(file) {
     return require(fileHjson);
   }
 
-  console.warn('Empty mock data: ' + file);
   return {};
 }
 
@@ -92,13 +91,18 @@ function datasourcesRecipe(app, drPath) {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ctx, params) {
         var otherOpts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-        var _Object$assign, mock, cache, age, cacheKey, key, value;
+        var _Object$assign, mock, cache, cacheAge, cacheKey, key, value;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _Object$assign = Object.assign({ mock: false, cache: false, age: 5000, cacheKey: null }, otherOpts), mock = _Object$assign.mock, cache = _Object$assign.cache, age = _Object$assign.age, cacheKey = _Object$assign.cacheKey;
+                _Object$assign = Object.assign({
+                  mock: false,
+                  cache: false,
+                  cacheAge: 5000,
+                  cacheKey: null
+                }, otherOpts), mock = _Object$assign.mock, cache = _Object$assign.cache, cacheAge = _Object$assign.cacheAge, cacheKey = _Object$assign.cacheKey;
 
                 if (!mock) {
                   _context.next = 3;
@@ -133,7 +137,7 @@ function datasourcesRecipe(app, drPath) {
               case 11:
                 value = _context.sent;
 
-                ctx.$caches.set(key, value, age);
+                ctx.$caches.set(key, value, cacheAge);
 
               case 13:
                 return _context.abrupt('return', ctx.$caches.get(key));

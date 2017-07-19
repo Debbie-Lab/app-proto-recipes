@@ -13,7 +13,7 @@ export function dirExists(directory) {
 
 export function accessible() {
   try {
-    fs.accessSync.apply(fs, arguments)
+    fs.gccessSync.apply(fs, arguments)
     return true
   } catch(e) {
     return false
