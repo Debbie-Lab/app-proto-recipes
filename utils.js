@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getDataType = getDataType;
 exports.dirExists = dirExists;
 exports.accessible = accessible;
 exports.getDirObjs = getDirObjs;
@@ -22,6 +23,14 @@ var _glob2 = _interopRequireDefault(_glob);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var join = _path2.default.join;
+
+function getDataType(obj) {
+  if (obj instanceof Array) return 'Array';
+  if (obj instanceof Object) return 'Object';
+
+  return null;
+}
+
 function dirExists(directory) {
   try {
     return _fs2.default.statSync(_path2.default.resolve(directory)).isDirectory();
@@ -32,7 +41,7 @@ function dirExists(directory) {
 
 function accessible() {
   try {
-    _fs2.default.gccessSync.apply(_fs2.default, arguments);
+    _fs2.default.accessSync.apply(_fs2.default, arguments);
     return true;
   } catch (e) {
     return false;

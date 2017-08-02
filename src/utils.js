@@ -3,6 +3,14 @@ import path from 'path'
 import glob from 'glob'
 
 const join = path.join
+
+export function getDataType(obj) {
+  if(obj instanceof Array) return 'Array'
+  if(obj instanceof Object ) return 'Object'
+
+  return null
+}
+
 export function dirExists(directory) {
   try {
     return fs.statSync(path.resolve(directory)).isDirectory()
@@ -13,7 +21,7 @@ export function dirExists(directory) {
 
 export function accessible() {
   try {
-    fs.gccessSync.apply(fs, arguments)
+    fs.accessSync.apply(fs, arguments)
     return true
   } catch(e) {
     return false

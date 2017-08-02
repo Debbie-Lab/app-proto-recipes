@@ -28,20 +28,22 @@ function contextRecipe(app, crPath) {
   var pkgPath = join(crPath, '$pkges.js');
   if ((0, _utils.accessible)(pkgPath)) {
     var pkges = require(pkgPath).default;
-    if (!Array.isArray(pkges)) {
-      throw new Error('"' + pkgPath + '" error: must array');
+    if ((0, _utils.getDataType)(pkges) !== 'Object') {
+      throw new Error('"' + pkgPath + '" error: must a object.');
     }
 
-    pkges.forEach(function (pkg) {
-      var Ctx = require(pkg).default;
-      if (app.context[pkg]) {
+    Object.keys(pkges).forEach(function (key) {
+      var Ctx = require(pkges[key]).default;
+      if (app.context[key]) {
         throw new Error('Duplicate objects: ' + pkg + '; see file \'' + pkgPath + '\'');
       }
-      app.context[pkg] = new Ctx();
+      app.context[key] = new Ctx();
     });
   }
 
-  (0, _glob2.default)(join('**/*.js'), { cwd: crPath, dot: false, sync: true }).map(function (file) {
+  (0, _glob2.default)(join('**/*.js'), { cwd: crPath, dot: false, sync: true }).filter(function (file) {
+    return !file.startsWith('$');
+  }).map(function (file) {
     var Ctx = require(join(crPath, file)).default;
     var ctxName = file.replace(/\.\w+$/, '');
     var ctxObj = new Ctx();
