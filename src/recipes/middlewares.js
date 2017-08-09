@@ -13,7 +13,7 @@ export default function middlewaresRecipe(app, mrPath) {
     throw new Error(`Wrong path: ${mrPath}`)
   }
 
-  const middlewares = []
+  const middlewares = {}
 
   const assign = (name, mw) => {
     if (typeof middlewares[name] !== 'undefined') {
