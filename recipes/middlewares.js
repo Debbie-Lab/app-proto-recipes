@@ -29,7 +29,7 @@ function middlewaresRecipe(app, mrPath) {
     throw new Error('Wrong path: ' + mrPath);
   }
 
-  var middlewares = [];
+  var middlewares = {};
 
   var assign = function assign(name, mw) {
     if (typeof middlewares[name] !== 'undefined') {
