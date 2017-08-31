@@ -2,7 +2,7 @@ import path from 'path'
 import glob from 'glob'
 import compose from 'koa-compose'
 
-import { dirExists, accessible} from '@root/utils'
+import { dirExists, accessible, getDataType } from '@root/utils'
 
 
 const join = path.join
@@ -25,11 +25,12 @@ export default function middlewaresRecipe(app, mrPath) {
 
   const pkgPath = join(mrPath, '$pkges.js')
   if (accessible(pkgPath)) {
-    const pkges = require(pkgPath).default
-    if (!Array.isArray(pkges)) {
-      throw new Error(`"${pkgPath}" error: must array`)
+    const pkgs = require(pkgPath).default
+    if (getDataType(pkgs) !== 'Object') {
+      throw new Error(`"${pkgPath}" error: must object`)
     }
-    pkges.forEach(pkg => assign(pkg, require(pkg).default))
+
+    Object.keys(pkgs).forEach(key => assign(key, require(pkgs[key]).default))
   }
 
   glob(join('**/*.js'), { cwd: mrPath, dot: false, sync: true })

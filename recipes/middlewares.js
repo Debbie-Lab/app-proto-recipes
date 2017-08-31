@@ -41,12 +41,13 @@ function middlewaresRecipe(app, mrPath) {
 
   var pkgPath = join(mrPath, '$pkges.js');
   if ((0, _utils.accessible)(pkgPath)) {
-    var pkges = require(pkgPath).default;
-    if (!Array.isArray(pkges)) {
-      throw new Error('"' + pkgPath + '" error: must array');
+    var pkgs = require(pkgPath).default;
+    if ((0, _utils.getDataType)(pkgs) !== 'Object') {
+      throw new Error('"' + pkgPath + '" error: must object');
     }
-    pkges.forEach(function (pkg) {
-      return assign(pkg, require(pkg).default);
+
+    Object.keys(pkgs).forEach(function (key) {
+      return assign(key, require(pkgs[key]).default);
     });
   }
 
