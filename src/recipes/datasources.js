@@ -33,8 +33,7 @@ function fnGetMockData(file) {
 
 // lru-caches options
 const opts = {
-  length: function(n, key) { return n * 2 + key.length },
-  dispose: function(key, n) { n.close },
+  max: 800,
   maxAge: 1000 * 60 * 30,
 }
 
