@@ -1,6 +1,6 @@
 {
   "name": "app-proto-recipes",
-  "version": "1.3.8",
+  "version": "2.0.0-beta",
   "description": "Read the specification of directories (for app-proto scaffold).",
   "main": "index.js",
   "directories": {
@@ -26,27 +26,12 @@
   "dependencies": {
     "camelcase": "^4.1.0",
     "glob": "^7.1.2",
-    "hjson": "^2.4.2",
-    "koa": "^2.2.0",
-    "koa-router": "^7.2.0",
+    "hjson": "^3.1.0",
+    "koa": "^2.4.1",
+    "koa-router": "^7.3.0",
     "lru-cache": "^4.1.1",
     "mockjs": "^1.0.1-beta3",
-    "object-hash": "^1.1.8"
+    "object-hash": "^1.2.0"
   },
-  "devDependencies": {
-    "babel": "^6.5.2",
-    "babel-core": "^6.13.2",
-    "babel-plugin-module-alias": "^1.6.0",
-    "babel-polyfill": "^6.13.0",
-    "babel-preset-es2015": "^6.13.2",
-    "babel-preset-stage-3": "^6.11.0",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "mocha": "^3.0.2",
-    "request": "^2.74.0",
-    "request-promise": "^4.1.1",
-    "supertest": "^2.0.0",
-    "webpack": "^1.13.2"
-  }
+  "devDependencies": {}
 }
