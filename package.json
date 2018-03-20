@@ -23,14 +23,20 @@
     "url": "https://github.com/Debbie-Lab/app-proto-recipes/issues"
   },
   "homepage": "https://github.com/Debbie-Lab/app-proto-recipes#readme",
+  "_moduleAliases": {
+    "@root": ".",
+    "@lib": "src/foo"
+  },
   "dependencies": {
     "camelcase": "^4.1.0",
+    "electrolyte": "^0.5.0",
     "glob": "^7.1.2",
     "hjson": "^3.1.0",
     "koa": "^2.4.1",
     "koa-router": "^7.3.0",
     "lru-cache": "^4.1.1",
     "mockjs": "^1.0.1-beta3",
+    "module-alias": "^2.0.3",
     "object-hash": "^1.2.0"
   },
   "devDependencies": {}

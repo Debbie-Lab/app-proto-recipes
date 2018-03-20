@@ -1,6 +1,0 @@
-
-
-```bash
-node index.js
-
-```

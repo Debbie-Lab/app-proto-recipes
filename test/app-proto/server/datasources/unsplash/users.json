@@ -1,9 +1,0 @@
-{
-  "id": "@id",
-  "guestName": "@cname",
-  "guestMobile": "@string('number', 11)",
-  "certificateNo": "@string('number', 18)",
-  "certificateType": "@string(5)",
-  "birthday": "@date('yyyy-MM-dd')",
-  "remark": "@cparagraph"
-}
