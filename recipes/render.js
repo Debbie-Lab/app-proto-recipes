@@ -38,7 +38,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
   var _this = this;
 
   var routerController = function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ctx, next) {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(ctx, next) {
       var serveData, Template, tpl;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -58,7 +58,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
               return _context.abrupt('return');
 
             case 5:
-              if (!((typeof serveData === 'undefined' ? 'undefined' : _typeof(serveData)) !== 'object')) {
+              if (!((typeof serveData === 'undefined' ? 'undefined' : _typeof(serveData)) !== 'object' || Buffer.isBuffer(serveData))) {
                 _context.next = 8;
                 break;
               }
@@ -110,7 +110,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
   }();
 
   var renderMiddlewares = function () {
-    var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(ctx, next) {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ctx, next) {
       var availableMiddlewares;
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
@@ -148,12 +148,12 @@ function initSchema(renderConfigs, page, rrPath, tplPath) {
   if (!Array.isArray(renderConfigs)) {
     (renderConfigs.urls || [defaultUrl]).forEach(function (url) {
       return (renderConfigs.methods || ['GET']).forEach(function (method) {
-        return routerRegister(url, method, renderConfigs.middlewares || [], renderConfigs.controller, renderConfigs.template || null, page // end method
-        );
-      } // end renderConfigs.methods
+        return routerRegister(url, method, renderConfigs.middlewares || [], renderConfigs.controller, renderConfigs.template || null, page);
+      } // end method
       );
-    } // end renderConfigs.urls
-    );return;
+    } // end renderConfigs.methods
+    ); // end renderConfigs.urls
+    return;
   }
 
   renderConfigs.forEach(function (renderConfig) {
@@ -172,12 +172,11 @@ function initSchema(renderConfigs, page, rrPath, tplPath) {
 
     urls.forEach(function (url) {
       return methods.forEach(function (method) {
-        return routerRegister(url, method, schema.middlewares, schema.controller, schema.template, page // end method
-        );
-      } // end url
+        return routerRegister(url, method, schema.middlewares, schema.controller, schema.template, page);
+      } // end method
       );
-    } // end urls
-    );
+    } // end url
+    ); // end urls
   });
 }
 

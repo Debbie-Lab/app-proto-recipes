@@ -18,7 +18,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
       return
     }
 
-    if (typeof serveData !== 'object') {
+    if (typeof serveData !== 'object' || Buffer.isBuffer(serveData)) {
       ctx.body = serveData
       return
     }

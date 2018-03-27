@@ -45,7 +45,7 @@ function datasourcesRecipe(app, drPath) {
     var mockData = (0, _utils.accessible)(mockFile) ? mock(require(mockFile)) : {};
 
     return function () {
-      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ctx, params) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(ctx, params) {
         var mock = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
