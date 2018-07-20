@@ -1,0 +1,26 @@
+{
+  "name": "app-proto-recipes",
+  "version": "3.0.0-typescript",
+  "description": "Read the specification of directories (for `app-proto` scaffold).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Debbie-Lab/app-proto-recipes.git"
+  },
+  "keywords": [
+    "app-proto"
+  ],
+  "author": "solome",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Debbie-Lab/app-proto-recipes/issues"
+  },
+  "homepage": "https://github.com/Debbie-Lab/app-proto-recipes#readme",
+  "dependencies": {},
+  "devDependencies": {}
+}
