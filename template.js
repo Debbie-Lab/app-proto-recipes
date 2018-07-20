@@ -1,4 +1,4 @@
-export default class Templates {
+module.exports = class Templates {
   constructor(params) {
     this.ctx = params.ctx
     this.page = params.page || null
