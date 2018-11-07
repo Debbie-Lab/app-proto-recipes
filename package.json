@@ -1,12 +1,14 @@
 {
-  "name": "app-proto-recipes",
+  "name": "@app-proto/recipes",
   "version": "3.0.0-typescript",
   "description": "Read the specification of directories (for `app-proto` scaffold).",
-  "main": "index.js",
+  "main": "dist/index.js",
   "directories": {
-    "doc": "docs"
+    "test": "test"
   },
   "scripts": {
+    "build": "rm -rf dist && tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -16,11 +18,19 @@
     "app-proto"
   ],
   "author": "solome",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/Debbie-Lab/app-proto-recipes/issues"
   },
   "homepage": "https://github.com/Debbie-Lab/app-proto-recipes#readme",
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "koa": "^2.5.3"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "jest": "^23.6.0",
+    "tslint": "^5.11.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.1.2"
+  }
 }
