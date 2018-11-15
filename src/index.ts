@@ -6,7 +6,7 @@ export default class App extends Koa {
 
   constructor (config: AppConfig) {
     super()
-    this.context.state.config = config
+    this.context.$config = config
     // this.$tpls
     // this.$routes
     // this.$ds

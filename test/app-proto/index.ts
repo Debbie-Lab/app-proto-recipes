@@ -1,6 +1,4 @@
-import * as Koa from 'koa'
 import App from '../../'
-import { MiddlewareContext } from '../../'
 const app: App = new App({})
 
 console.log(app)
