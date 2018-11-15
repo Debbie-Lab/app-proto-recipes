@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -8,32 +8,25 @@ exports.dirExists = dirExists;
 exports.accessible = accessible;
 exports.getDirObjs = getDirObjs;
 
-var _fs = require('fs');
+var _fs = _interopRequireDefault(require("fs"));
 
-var _fs2 = _interopRequireDefault(_fs);
+var _path = _interopRequireDefault(require("path"));
 
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
-var _glob = require('glob');
-
-var _glob2 = _interopRequireDefault(_glob);
+var _glob = _interopRequireDefault(require("glob"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var join = _path2.default.join;
+const join = _path.default.join;
 
 function getDataType(obj) {
   if (obj instanceof Array) return 'Array';
   if (obj instanceof Object) return 'Object';
-
   return null;
 }
 
 function dirExists(directory) {
   try {
-    return _fs2.default.statSync(_path2.default.resolve(directory)).isDirectory();
+    return _fs.default.statSync(_path.default.resolve(directory)).isDirectory();
   } catch (err) {
     return false;
   }
@@ -41,27 +34,25 @@ function dirExists(directory) {
 
 function accessible() {
   try {
-    _fs2.default.accessSync.apply(_fs2.default, arguments);
+    _fs.default.accessSync.apply(_fs.default, arguments);
+
     return true;
   } catch (e) {
     return false;
   }
 }
 
-function getDirObjs(dir) {
-  var whitelist = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
+function getDirObjs(dir, whitelist = []) {
   if (!dirExists(dir)) {
-    throw new Error('Wrong path: ' + dir);
+    throw new Error(`Wrong path: ${dir}`);
   }
 
-  var whiteset = new Set(whitelist);
-  var objs = {};
-  (0, _glob2.default)(join('**/*.js'), { cwd: dir, dot: false, sync: true }).filter(function (file) {
-    return !whiteset.has(file);
-  }).forEach(function (file) {
-    return objs[file.replace(/\.\w+$/, '')] = require(join(dir, file)).default;
-  });
-
+  const whiteset = new Set(whitelist);
+  const objs = {};
+  (0, _glob.default)(join('**/*.js'), {
+    cwd: dir,
+    dot: false,
+    sync: true
+  }).filter(file => !whiteset.has(file)).forEach(file => objs[file.replace(/\.\w+$/, '')] = require(join(dir, file)).default);
   return objs;
 }

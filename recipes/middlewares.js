@@ -1,77 +1,69 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = middlewaresRecipe;
 
-var _path = require('path');
+var _path = _interopRequireDefault(require("path"));
 
-var _path2 = _interopRequireDefault(_path);
+var _glob = _interopRequireDefault(require("glob"));
 
-var _glob = require('glob');
+var _koaCompose = _interopRequireDefault(require("koa-compose"));
 
-var _glob2 = _interopRequireDefault(_glob);
-
-var _koaCompose = require('koa-compose');
-
-var _koaCompose2 = _interopRequireDefault(_koaCompose);
-
-var _utils = require('../utils');
+var _utils = require("../utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var join = _path2.default.join;
+const join = _path.default.join;
 
 function middlewaresRecipe(app, mrPath) {
-
   if (!(0, _utils.dirExists)(mrPath)) {
-    throw new Error('Wrong path: ' + mrPath);
+    throw new Error(`Wrong path: ${mrPath}`);
   }
 
-  var middlewares = {};
+  const middlewares = {};
 
-  var assign = function assign(name, mw) {
+  const assign = (name, mw) => {
     if (typeof middlewares[name] !== 'undefined') {
-      new Error('Middleware is re-registered: ' + name);
+      new Error(`Middleware is re-registered: ${name}`);
     } else {
       middlewares[name] = mw;
     }
   };
 
-  var pkgPath = join(mrPath, '$pkges.js');
+  const pkgPath = join(mrPath, '$pkges.js');
+
   if ((0, _utils.accessible)(pkgPath)) {
-    var pkgs = require(pkgPath).default;
+    const pkgs = require(pkgPath).default;
+
     if ((0, _utils.getDataType)(pkgs) !== 'Object') {
-      throw new Error('"' + pkgPath + '" error: must object');
+      throw new Error(`"${pkgPath}" error: must object`);
     }
 
-    Object.keys(pkgs).forEach(function (key) {
-      return assign(key, require(pkgs[key]).default);
-    });
+    Object.keys(pkgs).forEach(key => assign(key, require(pkgs[key]).default));
   }
 
-  (0, _glob2.default)(join('**/*.js'), { cwd: mrPath, dot: false, sync: true }).filter(function (file) {
-    return !file.startsWith('$');
-  }).map(function (file) {
-    return assign(file.replace('.js', ''), require(join(mrPath, file)).default);
-  });
-
+  (0, _glob.default)(join('**/*.js'), {
+    cwd: mrPath,
+    dot: false,
+    sync: true
+  }).filter(file => !file.startsWith('$')).map(file => assign(file.replace('.js', ''), require(join(mrPath, file)).default));
   app.context['$middlewares'] = middlewares;
 
-  var globMiddlewares = require(join(mrPath, '$global.js')).default;
+  const globMiddlewares = require(join(mrPath, '$global.js')).default;
 
   if (!Array.isArray(globMiddlewares)) {
     throw new Error('"$global.js" error: must array');
   }
 
-  var availableMiddlewares = [];
-  globMiddlewares.forEach(function (middleware) {
+  const availableMiddlewares = [];
+  globMiddlewares.forEach(middleware => {
     if (middleware in middlewares) {
       availableMiddlewares.push(middlewares[middleware]);
     } else {
-      throw new Error('middlewares \'' + middleware + '\' NOT FOUND!');
+      throw new Error(`middlewares '${middleware}' NOT FOUND!`);
     }
   });
-  app.use((0, _koaCompose2.default)(availableMiddlewares));
+  app.use((0, _koaCompose.default)(availableMiddlewares));
 }

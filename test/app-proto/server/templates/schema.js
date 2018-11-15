@@ -1,4 +1,4 @@
-import Template from 'app-proto-recipes/template'
+import Template from '@app-proto/recipes/template'
 
 export default class SchemaTpl extends Template {
   constructor(serveData) {

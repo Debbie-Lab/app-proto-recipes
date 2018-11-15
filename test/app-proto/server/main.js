@@ -1,6 +1,6 @@
 import Koa from 'koa'
 import config from '@server/config'
-import recipes from 'app-proto-recipes'
+import recipes from '@app-proto/recipes'
 
 
 const logger = console.log
