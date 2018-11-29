@@ -23,7 +23,7 @@ export default function contextRecipe(app, crPath) {
       if (app.context[key]) {
         throw new Error(`Duplicate objects: ${pkg}; see file '${pkgPath}'`)
       }
-      app.context[key] = new Ctx()
+      app.context[key] = new Ctx(app)
     })
   }
 
@@ -33,7 +33,7 @@ export default function contextRecipe(app, crPath) {
     .map(file => {
       const Ctx = require(join(crPath, file)).default
       const ctxName = file.replace(/\.\w+$/, '')
-      const ctxObj = new Ctx()
+      const ctxObj = new Ctx(app)
 
       if (app.context[ctxName]) {
         throw new Error(`Duplicate objects: ${ctxName}; see file '${file}'`)

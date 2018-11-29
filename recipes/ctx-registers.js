@@ -36,7 +36,7 @@ function contextRecipe(app, crPath) {
         throw new Error(`Duplicate objects: ${pkg}; see file '${pkgPath}'`);
       }
 
-      app.context[key] = new Ctx();
+      app.context[key] = new Ctx(app);
     });
   }
 
@@ -48,7 +48,7 @@ function contextRecipe(app, crPath) {
     const Ctx = require(join(crPath, file)).default;
 
     const ctxName = file.replace(/\.\w+$/, '');
-    const ctxObj = new Ctx();
+    const ctxObj = new Ctx(app);
 
     if (app.context[ctxName]) {
       throw new Error(`Duplicate objects: ${ctxName}; see file '${file}'`);
