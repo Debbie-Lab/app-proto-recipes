@@ -12,7 +12,7 @@ const routes = []
 
 function routerRegister(url, method, middlewares, controller, template, page) {
   async function routerController(ctx, next) {
-    ctx.render = async (tpl, data, page) => {
+    const render = async (tpl, data, page) => {
       const Template = ctx.$tpls[tpl]
       const template = new Template({
         ctx, page,
@@ -25,7 +25,7 @@ function routerRegister(url, method, middlewares, controller, template, page) {
 
       ctx.body = await template.toHtml()
     }
-
+    ctx.render = ctx.render || render
     const serveData = await controller.call(this, ctx, next)
 
     if (typeof serveData === 'undefined') {
