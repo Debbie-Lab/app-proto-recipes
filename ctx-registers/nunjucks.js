@@ -4,7 +4,7 @@ const njks = require('nunjucks');
 
 const join = require('path').join;
 
-const getDirObjs = require("../utils").getDirObjs;
+const getDirObjs = require('@app-proto/recipes/utils').getDirObjs;
 
 const cwd = process.cwd();
 const ASSETS_DEPS_JSON = join(cwd, '__deps__.json');
@@ -18,7 +18,7 @@ exports.default = class Nunjucks {
     this.env = new njks.Environment(new njks.FileSystemLoader(viewsDir), {
       autoescape: false
     });
-    this.env.addExtension('ReactSSRExtension', new ReactSSRExtension(app.context.$config.path.bundles));
+    this.env.addExtension('SSRExtension', new SSRExtension(app.context.$config.path.bundles));
     this.env.addExtension('StylesheetExtension', new StylesheetExtension());
   }
 
@@ -32,6 +32,10 @@ exports.default = class Nunjucks {
 
 };
 
+const Vue = require('vue');
+
+const renderer = require('vue-server-renderer').createRenderer();
+
 const ReactDOMServer = require('react-dom/server');
 
 class Ext {
@@ -39,7 +43,7 @@ class Ext {
     const tok = parser.nextToken();
     const args = parser.parseSignature(null, true);
     parser.advanceAfterBlockEnd(tok.value);
-    return new nodes.CallExtension(this, 'run', args);
+    return new nodes.CallExtensionAsync(this, 'run', args);
   }
 
 }
@@ -51,12 +55,14 @@ class StylesheetExtension extends Ext {
   }
 
   run(context, ...pages) {
-    return pages.map(page => `<link rel="stylesheet" href="${deps[page].css}">`).join('');
+    const callback = pages.pop();
+    const res = pages.map(page => `<link rel="stylesheet" href="${deps[page].css}">`).join('');
+    callback(null, res);
   }
 
 }
 
-class ReactSSRExtension extends Ext {
+class SSRExtension extends Ext {
   constructor(opts) {
     super();
     this.tags = ['render'];
@@ -79,10 +85,16 @@ class ReactSSRExtension extends Ext {
    */
 
 
-  run(context, page, data, name) {
-    const ssr = ReactDOMServer.renderToString(this.pages[page](data));
-    const ret = `<div id="${name}">${ssr}</div>` + this.scriptTags(page, name, data);
-    return ret;
+  run(context, page, data, name, callback) {
+    const scriptTags = this.scriptTags(page, name, data);
+    const app = this.pages[page](data);
+
+    if (app instanceof Vue) {
+      renderer.renderToString(this.pages[page](data), (err, html) => callback(err, html + this.scriptTags(page, name, data)));
+    } else {
+      const ssr = ReactDOMServer.renderToString(this.pages[page](data));
+      callback(null, `<div id="${name}">${ssr}</div>` + this.scriptTags(page, name, data));
+    }
   }
 
 }
