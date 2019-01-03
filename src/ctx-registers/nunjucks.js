@@ -50,8 +50,8 @@ class StylesheetExtension extends Ext {
 
   run (context, ...pages) {
     const callback = pages.pop()
-    const res = pages.map(page => `<link rel="stylesheet" href="${deps[page].css}">`).join('')
-    res && callback(null, res)
+    const res = pages.filter(page => !!deps[page].css).map(page => `<link rel="stylesheet" href="${deps[page].css}">`).join('')
+    callback(null, res)
   }
 }
 
