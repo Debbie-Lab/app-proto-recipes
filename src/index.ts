@@ -1,6 +1,6 @@
 import Koa = require('koa')
 import only from './utils/only'
-import { AppConfig } from './types/config'
+import { AppConfig } from './typing/config'
 
 export default class App extends Koa {
 
