@@ -2,7 +2,7 @@ exports.default = class Debug {
   constructor (app) {
   }
 
-  debug (...args) {
+  log (...args) {
     console.log(args)
   }
 }

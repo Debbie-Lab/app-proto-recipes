@@ -7,4 +7,11 @@ const appConfig = {
 }
 
 const app = new App(appConfig)
-console.log(app)
+
+app.use(async (ctx, next) => {
+  ctx.debug.log('ctx-register debug')
+  ctx.body = 'hello app-proto'
+  await next()
+})
+
+app.listen(3001)

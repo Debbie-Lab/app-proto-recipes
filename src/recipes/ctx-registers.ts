@@ -8,7 +8,7 @@ export default async function (app: App) {
   const ctxRegisterPath = path.resolve(app.$config.server, 'ctx-registers')
 
   if (!accessible(ctxRegisterPath)) {
-    console.warn(`${ctxRegisterPath} error.`)
+    console.warn(`warning → ${ctxRegisterPath} not found.`)
     return
   }
   const pkgPath = path.resolve(ctxRegisterPath, '$pkges.js')
