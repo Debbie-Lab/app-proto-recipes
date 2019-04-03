@@ -1,11 +1,13 @@
 import Koa = require('koa');
-import { AppConfig } from './types/config';
-export interface MiddlewareContext extends Koa.Context {
-    $config: AppConfig;
-    [key: string]: any;
-}
+import { AppConfig } from './typing/config';
 export default class App extends Koa {
-    private ctx;
-    constructor(config: AppConfig);
+    $config: AppConfig;
+    private $views;
+    private $routes;
+    private $ds;
+    private $middlewares;
+    private $bundles;
+    constructor(config: AppConfig, run?: Function);
     toJSON(): Object;
+    start(): void;
 }

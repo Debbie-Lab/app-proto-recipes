@@ -2,34 +2,34 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Koa = require("koa");
 const only_1 = require("./utils/only");
+const ctx_registers_1 = require("./recipes/ctx-registers");
 class App extends Koa {
-    constructor(config) {
+    constructor(config, run) {
         super();
-        this.ctx = this.context;
-        this.ctx['$config'] = config;
-        // this.$tpls
-        // this.$routes
-        // this.$ds
-        // this.$middlewares
-        // this.$bundles
+        this.context.$config = this.$config = config;
+        Promise.resolve(this).then(async (app) => {
+            await ctx_registers_1.default(app);
+            run && run();
+        }).catch(console.warn);
+        this.context.$views = this.$views = {};
+        this.context.$routes = this.$routes = {};
+        this.context.$ds = this.$ds = {};
+        this.context.$middlewares = this.$middlewares = {};
+        this.context.$bundles = this.$bundles = {};
     }
-    // createContext (req: IncomingMessage, res: ServerResponse): Koa.Context {
-    //   const context = Object.create(this.ctx)
-    //   const request = context.request = Object.create(this.request)
-    //   const response = context.response = Object.create(this.response)
-    //   context.app = request.app = response.app = this
-    //   context.req = request.req = response.req = req
-    //   context.res = request.res = response.res = res
-    //   request.ctx = response.ctx = context
-    //   request.response = response
-    //   response.request = request
-    //   context.originalUrl = request.originalUrl = req.url
-    //   context.state = {}
-    //   context.$data = {}
-    //   return context
-    // }
     toJSON() {
-        return only_1.default(this, ['$config', 'subdomainOffset', 'proxy', 'env']);
+        return only_1.default(this, [
+            '$config',
+            '$views',
+            '$routes',
+            '$ds',
+            '$middlewares',
+            '$bundles',
+            'subdomainOffset', 'proxy', 'env'
+        ]);
+    }
+    start() {
+        console.log('start');
     }
 }
 exports.default = App;

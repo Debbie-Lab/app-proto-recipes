@@ -1,4 +1,4 @@
-
-// 项目配置定义
+// Project Config
 export interface AppConfig {
+  server: string
 }

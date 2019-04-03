@@ -1,2 +1,2 @@
-import Koa = require('koa');
-export default function (app: Koa, dir: string): void;
+import App from '../index';
+export default function (app: App): Promise<void>;

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
+    "dev": "rm -rf dist && tsc -w",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "repository": {
