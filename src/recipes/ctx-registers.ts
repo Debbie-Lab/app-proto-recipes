@@ -6,6 +6,7 @@ import App from '../index'
 import accessible from '../utils/accessible'
 
 export default async function (app: App) {
+
   const ctxRegisterPath = path.resolve(app.$config.server, 'ctx-registers')
 
   if (!accessible(ctxRegisterPath)) {
@@ -25,9 +26,7 @@ export default async function (app: App) {
   await (async () =>
     sync('**/*.js', { cwd: ctxRegisterPath, dot: false })
       .filter(f => !f.startsWith('$'))
-      .forEach(async f =>
-        app.context[f.replace(/\.\w+$/, '')] = new (await import(path.resolve(ctxRegisterPath, f))).default(app)
-      )
+      .forEach(async f => app.context[f.replace(/\.\w+$/, '')] = new (await import(path.resolve(ctxRegisterPath, f))).default(app))
   )()
 
   console.log('app.context.debug', app.context.debug)

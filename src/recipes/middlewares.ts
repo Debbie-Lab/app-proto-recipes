@@ -19,7 +19,6 @@ export default async function (app: App) {
 
   if (accessible(pkgPath)) {
     const pkges = await import(pkgPath)
-
     await (async () => Object.keys(pkges)
       .forEach(async (key: string) => middlewares[key] = await import(pkges[key]))
     )()
@@ -28,9 +27,7 @@ export default async function (app: App) {
   await (async () =>
     sync('**/*.js', { cwd: middlewaresPath, dot: false })
       .filter(f => !f.startsWith('$'))
-      .forEach(async f =>
-        middlewares[f.replace(/\.\w+$/, '')] = await import(path.resolve(middlewaresPath, f))
-      )
+      .forEach(async f => middlewares[f.replace(/\.\w+$/, '')] = await import(path.resolve(middlewaresPath, f)))
   )()
 
   app.context['$middlewares'] = middlewares
