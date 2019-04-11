@@ -1,7 +1,5 @@
 const App = require('../').default
 
-console.log('app', App)
-
 const appConfig = {
   server: __dirname,
 }
@@ -9,7 +7,7 @@ const appConfig = {
 const app = new App(appConfig)
 
 app.use(async (ctx, next) => {
-  ctx.debug.log('ctx-register debug')
+  ctx.debug.log('ctx-register debug', ctx.url)
   ctx.body = 'hello app-proto'
   await next()
 })

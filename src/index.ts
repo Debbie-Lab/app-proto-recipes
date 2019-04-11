@@ -2,7 +2,6 @@ import Koa = require('koa')
 import only from './utils/only'
 import { AppConfig } from './typing/config'
 import ctxRegisters from './recipes/ctx-registers'
-import { runInContext } from 'vm';
 
 export default class App extends Koa {
 

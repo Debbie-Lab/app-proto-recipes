@@ -1,6 +1,11 @@
 import { sync } from 'glob'
 import { join } from 'path'
 
+/**
+ * 
+ * @param dir
+ * @param blacklist
+ */
 export default function dir2Objs (dir: string, blacklist: string[] = []): Object {
   const blacklistSet: Set<string> = new Set(blacklist)
   const objs: Object = {}
