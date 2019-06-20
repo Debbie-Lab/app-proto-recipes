@@ -1,6 +1,6 @@
 {
   "name": "@app-proto/recipes",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "Read the specification of directories (for app-proto scaffold).",
   "main": "index.js",
   "directories": {

@@ -52,14 +52,9 @@ export default function datasourcesRecipe(app, drPath) {
     }
 
     const mockData = fnGetMockData(dsFile)
+
     return async function(ctx, params, otherOpts = {}) {
-      const { mock, cache, cacheAge, cacheKey } = Object.assign(
-        {
-          mock: false,
-          cache: false,
-          cacheAge: 5000,
-          cacheKey: null,
-        }, otherOpts)
+      const { mock, cache, cacheAge, cacheKey } = Object.assign({ mock: false, cache: false, cacheAge: 5000, cacheKey: null }, otherOpts)
       if (mock) {
         return mockData
       }
@@ -74,11 +69,22 @@ export default function datasourcesRecipe(app, drPath) {
       return ctx.$caches.get(key)
     }
   }
+
   glob(join('**/*.js'), {cwd: drPath, dot: false, sync: true})
-    .map(file => {
-      const name = camelCase(file.replace(/\//g, ' ').replace(/\.\w+$/, ''))
-      ds[name] = dsFunc(join(drPath, file))
+    .forEach(file => {
+      const camelCaseName = camelCase(file.replace(/\//g, ' ').replace(/\.\w+$/, ''))
+      ds[camelCaseName] = dsFunc(join(drPath, file))
+      ds[file.replace(/\.\w+$/, '')] = dsFunc(join(drPath, file))
     })
 
-  app.context['$ds'] = ds
+  const dsKeys = Object.keys(ds)
+  if (dsKeys.length === 0) return
+
+  app.use(async (ctx, next) => {
+    ctx.$ds = {}
+    dsKeys.forEach(k => ctx.$ds[k] = async (params, otherOpts) => await ds[k](ctx, typeof params === 'undefined' ? {} : params, otherOpts || {}))
+    await next()
+  })
+
 }
+

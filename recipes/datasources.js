@@ -105,9 +105,16 @@ function datasourcesRecipe(app, drPath) {
     cwd: drPath,
     dot: false,
     sync: true
-  }).map(file => {
-    const name = (0, _camelcase.default)(file.replace(/\//g, ' ').replace(/\.\w+$/, ''));
-    ds[name] = dsFunc(join(drPath, file));
+  }).forEach(file => {
+    const camelCaseName = (0, _camelcase.default)(file.replace(/\//g, ' ').replace(/\.\w+$/, ''));
+    ds[camelCaseName] = dsFunc(join(drPath, file));
+    ds[file.replace(/\.\w+$/, '')] = dsFunc(join(drPath, file));
   });
-  app.context['$ds'] = ds;
+  const dsKeys = Object.keys(ds);
+  if (dsKeys.length === 0) return;
+  app.use(async (ctx, next) => {
+    ctx.$ds = {};
+    dsKeys.forEach(k => ctx.$ds[k] = async (params, otherOpts) => await ds[k](ctx, typeof params === 'undefined' ? {} : params, otherOpts || {}));
+    await next();
+  });
 }
